@@ -6,7 +6,7 @@
 
 This project provides a driver implementation for the SPI (Serial Peripheral Interface) protocol on STM32 microcontrollers. It is designed to be modular, efficient, and easy to integrate into your projects.
 
-![SPI Driver Diagram](./assets/spi-driver-diagram.png)
+![SPI Driver Diagram](./assets/spi_diagram.png)
 
 - Four I/O pins are dedicated to SPI comunication with external devices.  
 	- MISO: Master In / Slave Out data. In genereal this pin is used to transmit data in slave mode and recieve data in master mode.
@@ -36,4 +36,5 @@ SPI allows the MCU to comunicate using different configurations, depending on th
 #### Simplex Communication:
 - Single Master and Single Slave application (Master in Tx and Slave in Rx only modes).
 - The cofiguration is same as Full-duplex mode. The application has to ignore the information captured on the unused input pin. This pin can be used as a standard GPIO.
+![SPI Driver Diagram](./assets/simplex.png)
 
