@@ -30,4 +30,4 @@ This section outlines key aspects of SPI operation, including slave management, 
 - CPHA = 0: Data will be sampled on the leading edge of the clock.
 
 ### SPI modes:
-![Full Duplex](./assets/spi-mode-table.webp)
+![Full Duplex](../assets/spi-mode-table.webp)
