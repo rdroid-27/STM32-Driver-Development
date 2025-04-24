@@ -126,6 +126,15 @@
  #define FSMC_BASEADDR                          0xA0000000U                     // FSMC (Flexible Static Memory Controller)
  //==========================================================
 
+ //==========================================================
+ // Generic Macros
+  #define ENABLE                                1
+  #define DISABLE                               0
+  #define SET                                   1
+  #define RESET                                 0
+  #define GPIO_PIN_SET                          1
+  #define GPIO_PIN_RESET                        0
+ //==========================================================
 
 // <------------------------------------------------------------------------------> 
 
