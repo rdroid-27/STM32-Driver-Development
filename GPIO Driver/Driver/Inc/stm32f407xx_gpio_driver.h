@@ -10,6 +10,48 @@
 
 #include "stm32f407xx.h"
 
+// Macros for GPIO Pin possible modes
+#define GPIO_MODE_IN                        0
+#define GPIO_MODE_OUT                       1
+#define GPIO_MODE_ALTFN                     2
+#define GPIO_MODE_ANALOG                    3
+#define GPIO_MODE_IT_RT                     4
+#define GPIO_MODE_IT_FT                     5
+#define GPIO_MODE_IT_RFT                    6
+
+// Macros for GPIO Pin Output types
+#define GPIO_OP_TYPE_PP                     0
+#define GPIO_OP_TYPE_OD                     1
+
+// Macros for GPIO Pin possible Output speed modes
+#define GPIO_OP_SPEED_LOW                   0
+#define GPIO_OP_SPEED_MED                   1
+#define GPIO_OP_SPEED_HIGH                  2
+#define GPIO_OP_SPEED_VERYHIGH              3
+
+// Macros for GPIO Pin possible Pull-up/Pull-down modes
+#define GPIO_NO_PUPD                        0
+#define GPIO_PU                             1
+#define GPIO_PD                             2
+
+// Macros for GPIO Pin Numbers
+#define GPIO_PIN_0                          0
+#define GPIO_PIN_1                          1
+#define GPIO_PIN_2                          2
+#define GPIO_PIN_3                          3
+#define GPIO_PIN_4                          4
+#define GPIO_PIN_5                          5
+#define GPIO_PIN_6                          6
+#define GPIO_PIN_7                          7
+#define GPIO_PIN_8                          8
+#define GPIO_PIN_9                          9
+#define GPIO_PIN_10                         10
+#define GPIO_PIN_11                         11
+#define GPIO_PIN_12                         12
+#define GPIO_PIN_13                         13
+#define GPIO_PIN_14                         14
+#define GPIO_PIN_15                         15
+
 // <------------------------------------------------------------------------------>
 
 // Pin Configuration Structure for GPIO Pin
@@ -38,88 +80,7 @@ typedef struct
 
 // <------------------------------------------------------------------------------>
 
-// Enable The GPIO port by enable the corresponding peripheral clock associated with it and vice versa for disabling the GPIO port.
-void GPIO_PeriClkControl(GPIO_RegDef_t *pGPIOx, uint8_t EnorDi)
-{
-    if (EnorDi == ENABLE)
-    {
-        if (pGPIOx == GPIOA)
-        {
-            GPIOA_PCLK_EN();
-        }
-        else if (pGPIOx == GPIOB)
-        {
-            GPIOB_PCLK_EN();
-        }
-        else if (pGPIOx == GPIOC)
-        {
-            GPIOC_PCLK_EN();
-        }
-        else if (pGPIOx == GPIOD)
-        {
-            GPIOD_PCLK_EN();
-        }
-        else if (pGPIOx == GPIOE)
-        {
-            GPIOE_PCLK_EN();
-        }
-        else if (pGPIOx == GPIOF)
-        {
-            GPIOF_PCLK_EN();
-        }
-        else if (pGPIOx == GPIOG)
-        {
-            GPIOG_PCLK_EN();
-        }
-        else if (pGPIOx == GPIOH)
-        {
-            GPIOH_PCLK_EN();
-        }
-        else if (pGPIOx == GPIOI)
-        {
-            GPIOI_PCLK_EN();
-        }
-    }
-    else if (EnorDi == DISABLE)
-    {
-        if (pGPIOx == GPIOA)
-        {
-            GPIOA_PCLK_DI();
-        }
-        else if (pGPIOx == GPIOB)
-        {
-            GPIOB_PCLK_DI();
-        }
-        else if (pGPIOx == GPIOC)
-        {
-            GPIOC_PCLK_DI();
-        }
-        else if (pGPIOx == GPIOD)
-        {
-            GPIOD_PCLK_DI();
-        }
-        else if (pGPIOx == GPIOE)
-        {
-            GPIOE_PCLK_DI();
-        }
-        else if (pGPIOx == GPIOF)
-        {
-            GPIOF_PCLK_DI();
-        }
-        else if (pGPIOx == GPIOG)
-        {
-            GPIOG_PCLK_DI();
-        }
-        else if (pGPIOx == GPIOH)
-        {
-            GPIOH_PCLK_DI();
-        }
-        else if (pGPIOx == GPIOI)
-        {
-            GPIOI_PCLK_DI();
-        }
-    }
-}
+
 
 // Driver APIs
 
