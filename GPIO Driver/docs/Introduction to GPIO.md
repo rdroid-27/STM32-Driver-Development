@@ -31,5 +31,5 @@ This project provides a driver implementation for the GPIO (General Purpose Inpu
  - This is the default configuration when the pin is made an output pin.
  - Output will be pulled actively between high and low by using these two transistors.
 
-[➡️ Next: GPIO programming structre and registers](./GPIO%20programming%20structre%20and%20registers.md)
+[➡️ Next: GPIO programming structre and registers](./GPIO%20programming%20structre%20and%20registers.md)<br>
 [⬅️ Back to README](../README.md)
