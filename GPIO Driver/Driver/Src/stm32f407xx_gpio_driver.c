@@ -159,3 +159,36 @@ void GPIO_Deinit(GPIO_RegDef_t *pGPIOx)
         GPIOI_REG_RESET();
     }
 }
+
+// Read from Input Pin
+uint8_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber)
+{
+    return (uint8_t)((pGPIOx->IDR >> pinNumber) & 0x00000001);
+}
+
+// Read from Input Port
+uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx)
+{
+    return (uint16_t)(pGPIOx->IDR);
+}
+
+// Write to Output Pin
+void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber, uint8_t value)
+{
+    if (value == GPIO_PIN_SET)
+        pGPIOx->ODR |= (1 << pinNumber);
+    else
+        pGPIOx->ODR &= ~(1 << pinNumber);
+}
+
+// Write to Output Port
+void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t value)
+{
+    pGPIOx->ODR = value;
+}
+
+// Toggle GPIO pin
+void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber)
+{
+    pGPIOx->ODR ^= (1 << pinNumber);
+}
