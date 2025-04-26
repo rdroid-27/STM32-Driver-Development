@@ -1,5 +1,7 @@
+[⬅️ Back to Introduction to GPIO](./Introduction%20to%20GPIO.md)
+[⬅️ Back to README](../README.md)
 
-# GPIO Programming Structr and Registers
+# GPIO Programming Structre and Registers
 
 ## Introduction
 
@@ -51,3 +53,5 @@ This documentation provides the information regarding the programming structure 
 	- '1' means the clock will be enabled for that GPIO port and '0' means disable.
 
 NOTE: These values depends on the vendor providing MCU, hence all the details should be checked in the DATA SHEET of MCU.
+
+[⬅️ Back to README](../README.md)
