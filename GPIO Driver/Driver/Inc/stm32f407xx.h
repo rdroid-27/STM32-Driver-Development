@@ -198,6 +198,33 @@
     volatile uint32_t PLLI2SCFGR;
  } RCC_RegDef_t;
  //==========================================================
+
+ //==========================================================
+ // Structure for GPIO Registers
+ typedef struct
+ {
+    volatile uint32_t IMR;
+    volatile uint32_t EMR;
+    volatile uint32_t RTSR;
+    volatile uint32_t FTSR;
+    volatile uint32_t SWIER;
+    volatile uint32_t PR;
+ } EXTI_RegDef_t;
+ //==========================================================
+
+ //==========================================================
+ // Structure for SYSCFG Registers
+ typedef struct
+ {
+    volatile uint32_t MEMRMP;
+    volatile uint32_t PMC;
+    volatile uint32_t EXTICR[4];
+             uint32_t RESERVED1[2];
+    volatile uint32_t CMPCR;
+             uint32_t RESERVED2[2];
+ } SYSCFG_RegDef_t;
+ //==========================================================
+
 // <------------------------------------------------------------------------------>
 
 //                      PERIPHERALs DEFINITION
@@ -222,7 +249,11 @@
 
  //==========================================================
  // RCC
- #define RCC     ((RCC_RegDef_t *)RCC_BASEADDR)
+ #define RCC         ((RCC_RegDef_t *)RCC_BASEADDR)
+ // EXTI
+ #define EXTI        ((EXTI_RegDef_t *)EXTI_BASEADDR)
+ // SYSCFG
+ #define SYSCFG      ((SYSCFG_RegDef_t *)SYSCFG_BASEADDR)
  //==========================================================
 
 // <------------------------------------------------------------------------------>
@@ -259,8 +290,28 @@
  #define GPIOI_PCLK_DI()   (RCC->AHB1ENR &= ~(1 << 8))
 //==========================================================
 
- //==========================================================
- // Register Reset for GPIO peripherals
+//==========================================================
+ // Clock enable & disable for SYSCFG
+ #define SYSCFG_PCLK_EN() (RCC->APB2ENR |= (1 << 14))
+ #define SYSCFG_PCLK_DI() (RCC->APB2ENR &= ~(1 << 14))
+//==========================================================
+
+//==========================================================
+ // Macro for returning the GPIO port code corresponding to the GPIO port
+ #define GPIO_BASEADDR_TO_PORTCODE(x)      ( (x==GPIOA) ? 0 : \
+                                             (x==GPIOB) ? 1 : \
+                                             (x==GPIOC) ? 2 : \
+                                             (x==GPIOD) ? 3 : \
+                                             (x==GPIOE) ? 4 : \
+                                             (x==GPIOF) ? 5 : \
+                                             (x==GPIOG) ? 6 : \
+                                             (x==GPIOH) ? 7 : \
+                                             (x==GPIOI) ? 8 : \
+                                           ) 
+//==========================================================
+
+//==========================================================
+// Register Reset for GPIO peripherals
  #define GPIOA_REG_RESET()   do{ (RCC->AHB1RSTR |= (1 << 0));  (RCC->AHB1RSTR &= ~(1 << 0)); }while(0)
  #define GPIOB_REG_RESET()   do{ (RCC->AHB1RSTR |= (1 << 1));  (RCC->AHB1RSTR &= ~(1 << 1)); }while(0)
  #define GPIOC_REG_RESET()   do{ (RCC->AHB1RSTR |= (1 << 2));  (RCC->AHB1RSTR &= ~(1 << 2)); }while(0)
