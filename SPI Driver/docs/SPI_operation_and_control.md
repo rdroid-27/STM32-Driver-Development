@@ -12,7 +12,7 @@ This section outlines key aspects of SPI operation, including slave management, 
 - For example, in single Master and multiple Slave application, we cannot use software NSS management, as Master needs to select the Slave by pulling the Slave's NSS to low.  
 ### Slave Select (NSS) Pin Management
 - When a device is in Slave mode: In Slave mode, the NSS works as standard "chip select"  input and lets slave commuincate with Master.
-- When a device is in Saster mode: In Master mode, NSS can be either used as output or input. As an input it can prevent multi-master bus collision, and as an output it can drive a slave select signal of a single slave.
+- When a device is in Master mode: In Master mode, NSS can be either used as output or input. As an input it can prevent multi-master bus collision, and as an output it can drive a slave select signal of a single slave.
 
 ## SPI Communication Format
 - During SPI communication, recieve and transmit operations are performed simultaneously.
