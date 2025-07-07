@@ -10,6 +10,13 @@
 
 #include <stdint.h>
 
+// Generic Macros
+#define ENALBE          1
+#define DISABLE         0
+#define SET             1
+#define RESET           0
+
+
 /*******************************************************************************************
  *                                STM32F103x MCU Base Addresses                            *
  *                                                                                         *
@@ -115,7 +122,7 @@
 // ==============================================================================
 
 /*******************************************************************************************
- *                                STM32F103x Peripheral Register Definitions               *
+ *                          STM32F103x Peripheral Register Definitions                     *
  *                                                                                         *
  * This section defines register offsets and register structures for each peripheral       *
  * (e.g., RCC, GPIO, TIM, USART, etc.) based on the STM32F103x reference manual. These     *
