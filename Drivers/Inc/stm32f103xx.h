@@ -150,13 +150,13 @@ typedef struct
 } GPIO_RegDef_t;
 
 // Map GPIOs to GPIO Register Structure
-#define GPIOA               (GPIO_RegDef_t*)GPIOA_BASEADDR
-#define GPIOB               (GPIO_RegDef_t*)GPIOB_BASEADDR
-#define GPIOC               (GPIO_RegDef_t*)GPIOC_BASEADDR
-#define GPIOD               (GPIO_RegDef_t*)GPIOD_BASEADDR
-#define GPIOE               (GPIO_RegDef_t*)GPIOE_BASEADDR
-#define GPIOF               (GPIO_RegDef_t*)GPIOF_BASEADDR
-#define GPIOG               (GPIO_RegDef_t*)GPIOG_BASEADDR
+#define GPIOA               ((GPIO_RegDef_t*)GPIOA_BASEADDR)
+#define GPIOB               ((GPIO_RegDef_t*)GPIOB_BASEADDR)
+#define GPIOC               ((GPIO_RegDef_t*)GPIOC_BASEADDR)
+#define GPIOD               ((GPIO_RegDef_t*)GPIOD_BASEADDR)
+#define GPIOE               ((GPIO_RegDef_t*)GPIOE_BASEADDR)
+#define GPIOF               ((GPIO_RegDef_t*)GPIOF_BASEADDR)
+#define GPIOG               ((GPIO_RegDef_t*)GPIOG_BASEADDR)
 
 /*<! RCC Register Structure >*/
 typedef struct
@@ -176,21 +176,21 @@ typedef struct
 } RCC_RegDef_t;
 
 // Map RCC to GPIO Register Structure
-#define RCC                 (RCC_RegDef_t*)RCC_BASEADDR
+#define RCC                 ((RCC_RegDef_t*)RCC_BASEADDR)
 
 // Enable Clock for GPIOs
-#define GPIOA_CLK_EN()      RCC->APB2ENR |= (1<<2)
-#define GPIOB_CLK_EN()      RCC->APB2ENR |= (1<<3)
-#define GPIOC_CLK_EN()      RCC->APB2ENR |= (1<<4)
-#define GPIOD_CLK_EN()      RCC->APB2ENR |= (1<<5)
-#define GPIOE_CLK_EN()      RCC->APB2ENR |= (1<<6)
+#define GPIOA_CLK_EN()      (RCC->APB2ENR |= (1<<2))
+#define GPIOB_CLK_EN()      (RCC->APB2ENR |= (1<<3))
+#define GPIOC_CLK_EN()      (RCC->APB2ENR |= (1<<4))
+#define GPIOD_CLK_EN()      (RCC->APB2ENR |= (1<<5))
+#define GPIOE_CLK_EN()      (RCC->APB2ENR |= (1<<6))
 
 // Disable Clock for GPIOs
-#define GPIOA_CLK_DI()      RCC->APB2ENR &= ~(1<<2)
-#define GPIOB_CLK_DI()      RCC->APB2ENR &= ~(1<<3)
-#define GPIOC_CLK_DI()      RCC->APB2ENR &= ~(1<<4)
-#define GPIOD_CLK_DI()      RCC->APB2ENR &= ~(1<<5)
-#define GPIOE_CLK_DI()      RCC->APB2ENR &= ~(1<<6)
+#define GPIOA_CLK_DI()      (RCC->APB2ENR &= ~(1<<2))
+#define GPIOB_CLK_DI()      (RCC->APB2ENR &= ~(1<<3))
+#define GPIOC_CLK_DI()      (RCC->APB2ENR &= ~(1<<4))
+#define GPIOD_CLK_DI()      (RCC->APB2ENR &= ~(1<<5))
+#define GPIOE_CLK_DI()      (RCC->APB2ENR &= ~(1<<6))
 
 
 
