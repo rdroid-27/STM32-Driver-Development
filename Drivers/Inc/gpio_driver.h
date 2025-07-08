@@ -28,14 +28,14 @@ typedef struct
  *                     GPIO Driver API Prototypes             *
  **************************************************************/
 
+// Enables or disables peripheral clock for the GPIO port
+void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t ENorDI);
+
 // Initializes a GPIO pin based on the configuration structure
 void GPIO_Init(GPIO_Handle_t *pGPIOHandle);
 
 // Resets all registers of the GPIO port
 void GPIO_DeInit(GPIO_RegDef_t *pGPIOx);
-
-// Enables or disables peripheral clock for the GPIO port
-void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t ENorDI);
 
 // Reads the entire input port (all 16 bits)
 uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx);
