@@ -49,9 +49,26 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t ENorDI)
     }
 }
 
+/**************************************************************
+ * @function    GPIO_Init
+ * @brief       Configures the mode and configuration for a GPIO pin
+ *
+ * @param[in]   pGPIOHandle - Pointer to GPIO handle structure that contains:
+ *                - GPIO port base address (pGPIOx)
+ *                - GPIO pin configuration structure (GPIO_PinConfig)
+ *
+ * @note
+ *   - For STM32F103 (Blue Pill), each GPIO pin is configured via
+ *     4 bits in CRL (pins 0–7) or CRH (pins 8–15):
+ *       [1:0] MODE: Output speed or input mode
+ *       [3:2] CNF : Configuration type (floating, pull-up/down, AF, etc.)
+ *   - For input mode with pull-up or pull-down (CNF = 0b10), the
+ *     ODR register must also be written to set pull type.
+ *
+ * @retval      None
+ **************************************************************/
 void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 {
-
     uint8_t pin_number = pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber;
 
     // Select CRL or CRH based on pin number
@@ -72,7 +89,7 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 
     *config_reg |= ((MODE | (CNF << 2)) << shift);
 
-    if (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_IP && pGPIOHandle->GPIO_PinConfig.GPIO_PinCNF == IP_PU_PD)
+    if (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_IP && pGPIOHandle->GPIO_PinConfig.GPIO_PinCNF == GPIO_CNF_INPUT_PUPD)
     {
         if (pGPIOHandle->GPIO_PinConfig.GPIO_PinPuPdControl == GPIO_PIN_PU)
             pGPIOHandle->pGPIOX->ODR |= (1 << pin_number); // pull-up

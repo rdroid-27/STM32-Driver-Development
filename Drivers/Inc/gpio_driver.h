@@ -19,25 +19,29 @@
 #define GPIO_PIN_6                  6
 #define GPIO_PIN_7                  7
              
-#define GPIO_PIN_PU                 1
-#define GPIO_PIN_PD                 0
 
-#define GPIO_MODE_IP                0
-#define GPIO_MODE_OP_10M            1
-#define GPIO_MODE_OP_2M             2
-#define GPIO_MODE_OP_50M            3
 
-// GPIO Input Mode Options
-#define ANALOG                      0
-#define FLOATING_INPUT              1
-#define IP_PU_PD                    2
-#define RESERVED                    3
- 
-// GPIO Output Mode Options 
-#define GPO_PP                      0
-#define GPO_OD                      1
-#define AFO_PP                      2
-#define AFO_OD                      3
+// Mode options (MODE[1:0])
+#define GPIO_MODE_IP             0x0  // Input mode
+#define GPIO_MODE_OP_10MHZ       0x1  // Output, 10 MHz
+#define GPIO_MODE_OP_2MHZ        0x2  // Output, 2 MHz
+#define GPIO_MODE_OP_50MHZ       0x3  // Output, 50 MHz
+
+// CNF options (CNF[1:0] for MODE = 00 → Input)
+#define GPIO_CNF_ANALOG          0x0
+#define GPIO_CNF_FLOATING        0x1
+#define GPIO_CNF_INPUT_PUPD      0x2
+
+// CNF options (for output modes)
+#define GPIO_CNF_GP_PUSH_PULL    0x0
+#define GPIO_CNF_GP_OPEN_DRAIN   0x1
+#define GPIO_CNF_AF_PUSH_PULL    0x2
+#define GPIO_CNF_AF_OPEN_DRAIN   0x3
+
+// Pull configuration (used with CNF = 0b10)
+#define GPIO_PIN_PU              1
+#define GPIO_PIN_PD              0
+
  
 /*<! GPIO Pin Configuration Structure >*/
 typedef struct
