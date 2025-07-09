@@ -10,12 +10,42 @@
 
 #include "stm32f103xx.h"
 
+#define GPIO_PIN_0                  0
+#define GPIO_PIN_1                  1
+#define GPIO_PIN_2                  2
+#define GPIO_PIN_3                  3
+#define GPIO_PIN_4                  4
+#define GPIO_PIN_5                  5
+#define GPIO_PIN_6                  6
+#define GPIO_PIN_7                  7
+             
+#define GPIO_PIN_PU                 1
+#define GPIO_PIN_PD                 0
+
+#define GPIO_MODE_IP                0
+#define GPIO_MODE_OP_10M            1
+#define GPIO_MODE_OP_2M             2
+#define GPIO_MODE_OP_50M            3
+
+// GPIO Input Mode Options
+#define ANALOG                      0
+#define FLOATING_INPUT              1
+#define IP_PU_PD                    2
+#define RESERVED                    3
+ 
+// GPIO Output Mode Options 
+#define GPO_PP                      0
+#define GPO_OD                      1
+#define AFO_PP                      2
+#define AFO_OD                      3
+ 
 /*<! GPIO Pin Configuration Structure >*/
 typedef struct
 {
     volatile uint8_t GPIO_PinNumber; // Pin number (0–15)
     volatile uint8_t GPIO_PinMode;   // Input, Output, AF, Analog (with speed or pull info)
     volatile uint8_t GPIO_PinCNF;    // CNF bits: configuration (PP, OD, floating, etc.)
+    volatile uint8_t GPIO_PinPuPdControl;
 } GPIO_PinConfig_t;
 
 typedef struct
