@@ -97,3 +97,151 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
             pGPIOHandle->pGPIOX->ODR &= ~(1 << pin_number); // pull-down
     }
 }
+/**************************************************************
+ * @function    GPIO_DeInit
+ * @brief       Resets all registers of the given GPIO port
+ *
+ * @param[in]   pGPIOX - Base address of GPIO port (e.g., GPIOA, GPIOB...)
+ *
+ * @note
+ *   - This uses RCC->APB2RSTR to reset the GPIO peripheral.
+ *   - The reset bit is set and then cleared immediately after,
+ *     to avoid holding the GPIO in reset state.
+ *
+ * @retval      None
+ **************************************************************/
+void GPIO_DeInit(GPIO_RegDef_t *pGPIOX)
+{
+    if (pGPIOX == GPIOA)
+    {
+        RCC->APB2RSTR |= (1 << 2);
+        RCC->APB2RSTR &= ~(1 << 2);
+    }
+    else if (pGPIOX == GPIOB)
+    {
+        RCC->APB2RSTR |= (1 << 3);
+        RCC->APB2RSTR &= ~(1 << 3);
+    }
+    else if (pGPIOX == GPIOC)
+    {
+        RCC->APB2RSTR |= (1 << 4);
+        RCC->APB2RSTR &= ~(1 << 4);
+    }
+    else if (pGPIOX == GPIOD)
+    {
+        RCC->APB2RSTR |= (1 << 5);
+        RCC->APB2RSTR &= ~(1 << 5);
+    }
+    else if (pGPIOX == GPIOE)
+    {
+        RCC->APB2RSTR |= (1 << 6);
+        RCC->APB2RSTR &= ~(1 << 6);
+    }
+    else if (pGPIOX == GPIOF)
+    {
+        RCC->APB2RSTR |= (1 << 7);
+        RCC->APB2RSTR &= ~(1 << 7);
+    }
+    else if (pGPIOX == GPIOG)
+    {
+        RCC->APB2RSTR |= (1 << 8);
+        RCC->APB2RSTR &= ~(1 << 8);
+    }
+}
+
+/**************************************************************
+ * @function    GPIO_ReadFromInputPort
+ * @brief       Reads the entire 16-bit input port value
+ *
+ * @param[in]   pGPIOx - Pointer to the GPIO peripheral (GPIOA, GPIOB, etc.)
+ *
+ * @retval      16-bit value representing all 16 input pins (IDR[15:0])
+ *
+ * @note
+ *   - Each bit corresponds to one pin (0: low, 1: high)
+ *   - Useful for reading all pin states at once
+ **************************************************************/
+uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx)
+{
+    return (uint16_t)((pGPIOx->IDR) & 0xFFFF);
+}
+
+/**************************************************************
+ * @function    GPIO_ReadFromInputPin
+ * @brief       Reads the logic level from a specific GPIO input pin
+ *
+ * @param[in]   pGPIOx     - Pointer to GPIO peripheral (e.g., GPIOA)
+ * @param[in]   PinNumber  - GPIO pin number (0 to 15)
+ *
+ * @retval      uint8_t    - 0 if pin is LOW, 1 if pin is HIGH
+ *
+ * @note
+ *   - This reads the bit in IDR corresponding to the pin number.
+ *   - Return is normalized to 0 or 1.
+ **************************************************************/
+uint8_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
+{
+    return (uint8_t)(((pGPIOx->IDR) >> PinNumber) & 0x1);
+}
+
+/**************************************************************
+ * @function    GPIO_WriteToOutputPort
+ * @brief       Writes a 16-bit value to the entire GPIO output port
+ *
+ * @param[in]   pGPIOx - Pointer to the GPIO peripheral (GPIOA, GPIOB, etc.)
+ * @param[in]   value  - 16-bit value to write to output pins (ODR)
+ *
+ * @note
+ *   - Each bit of `value` corresponds to one output pin:
+ *       Bit 0 → Pin 0, Bit 1 → Pin 1, ..., Bit 15 → Pin 15
+ *   - This directly overwrites the entire ODR register.
+ **************************************************************/
+void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t value)
+{
+    pGPIOx->ODR = value;
+}
+
+/**************************************************************
+ * @function    GPIO_WriteToOutputPin
+ * @brief       Writes logic HIGH or LOW to a specific GPIO output pin
+ *
+ * @param[in]   pGPIOx     - Pointer to GPIO peripheral (e.g., GPIOA)
+ * @param[in]   PinNumber  - GPIO pin number (0 to 15)
+ * @param[in]   value      - Logic level to write (0 = LOW, 1 = HIGH)
+ *
+ * @retval      None
+ *
+ * @note
+ *   - Only the selected pin is modified; other output pins remain unchanged.
+ *   - This modifies the ODR (Output Data Register) directly.
+ **************************************************************/
+void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber, uint8_t value)
+{
+    if (value == 1)
+    {
+        // Set the bit
+        pGPIOx->BSRR |= (1 << PinNumber);
+    }
+    else
+    {
+        // Clear the bit
+        pGPIOx->BSRR |= (1 << (PinNumber + 16));
+    }
+}
+
+/**************************************************************
+ * @function    GPIO_ToggleOutputPin
+ * @brief       Toggles the logic level of a specific GPIO output pin
+ *
+ * @param[in]   pGPIOx     - Pointer to GPIO peripheral (e.g., GPIOA)
+ * @param[in]   PinNumber  - GPIO pin number (0 to 15)
+ *
+ * @retval      None
+ *
+ * @note
+ *   - Uses XOR to toggle the bit in the ODR register.
+ **************************************************************/
+void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
+{
+    pGPIOx->ODR ^= (1 << PinNumber);
+}
