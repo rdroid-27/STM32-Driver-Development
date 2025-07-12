@@ -10,6 +10,7 @@
 
 #include "stm32f103xx.h"
 
+// GPIO Pin Number
 #define GPIO_PIN_0                  0
 #define GPIO_PIN_1                  1
 #define GPIO_PIN_2                  2
@@ -18,8 +19,14 @@
 #define GPIO_PIN_5                  5
 #define GPIO_PIN_6                  6
 #define GPIO_PIN_7                  7
-             
-
+#define GPIO_PIN_8                  8
+#define GPIO_PIN_9                  9
+#define GPIO_PIN_10                 10
+#define GPIO_PIN_11                 11
+#define GPIO_PIN_12                 12
+#define GPIO_PIN_13                 13
+#define GPIO_PIN_14                 14
+#define GPIO_PIN_15                 15
 
 // Mode options (MODE[1:0])
 #define GPIO_MODE_IP             0x0  // Input mode
@@ -42,8 +49,7 @@
 #define GPIO_PIN_PU              1
 #define GPIO_PIN_PD              0
 
- 
-/*<! GPIO Pin Configuration Structure >*/
+// GPIO Pin Configuration Structure
 typedef struct
 {
     volatile uint8_t GPIO_PinNumber; // Pin number (0–15)

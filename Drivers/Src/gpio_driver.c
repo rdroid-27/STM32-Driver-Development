@@ -97,6 +97,7 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
             pGPIOHandle->pGPIOX->ODR &= ~(1 << pin_number); // pull-down
     }
 }
+
 /**************************************************************
  * @function    GPIO_DeInit
  * @brief       Resets all registers of the given GPIO port
