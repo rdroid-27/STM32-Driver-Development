@@ -158,6 +158,18 @@ typedef struct
 #define GPIOF               ((GPIO_RegDef_t*)GPIOF_BASEADDR)
 #define GPIOG               ((GPIO_RegDef_t*)GPIOG_BASEADDR)
 
+/*<! AFIO Register Structure >*/
+typedef struct
+{
+    volatile uint32_t EVCR;       // 0x00: Event Control Register
+    volatile uint32_t MAPR;       // 0x04: AF Remap and Debug I/O Configuration Register
+    volatile uint32_t EXTICR[4];  // 0x08–0x14: External Interrupt Configuration Registers(EXTICR1–EXTICR4)
+    volatile uint32_t MAPR2;      // 0x18: AF Remap and Debug I/O Configuration Register 2
+} AFIO_RegDef_t;
+
+// Map AFIO to AFIO Register Structure
+#define AFIO                ((AFIO_RegDef_t*)AFIO_BASEADDR)
+
 /*<! RCC Register Structure >*/
 typedef struct
 {
@@ -175,7 +187,7 @@ typedef struct
     volatile uint32_t CFGR2;      // 0x2C: Clock Configuration Register 2 (connectivity line only)
 } RCC_RegDef_t;
 
-// Map RCC to GPIO Register Structure
+// Map RCC to RCC Register Structure
 #define RCC                 ((RCC_RegDef_t*)RCC_BASEADDR)
 
 // Enable Clock for GPIOs
