@@ -28,32 +28,40 @@
 #define GPIO_PIN_14                 14
 #define GPIO_PIN_15                 15
 
+// AFIO Port Codes
+#define PA                          0
+#define PB                          1
+#define PC                          2
+
 // Mode options (MODE[1:0])
-#define GPIO_MODE_IP             0x0  // Input mode
-#define GPIO_MODE_OP_10MHZ       0x1  // Output, 10 MHz
-#define GPIO_MODE_OP_2MHZ        0x2  // Output, 2 MHz
-#define GPIO_MODE_OP_50MHZ       0x3  // Output, 50 MHz
+#define GPIO_MODE_IP                0  // Input mode
+#define GPIO_MODE_OP_10MHZ          1  // Output, 10 MHz
+#define GPIO_MODE_OP_2MHZ           2  // Output, 2 MHz
+#define GPIO_MODE_OP_50MHZ          3  // Output, 50 MHz
+#define GPIO_MODE_IT_RT             4  // Interrupt - Rising Trigger
+#define GPIO_MODE_IT_FT             5  // Interrupt - Falling Trigger
+#define GPIO_MODE_IT_RFT            6  // Interrupt - Rising Falling Trigger
 
 // CNF options (CNF[1:0] for MODE = 00 → Input)
-#define GPIO_CNF_ANALOG          0x0
-#define GPIO_CNF_FLOATING        0x1
-#define GPIO_CNF_INPUT_PUPD      0x2
+#define GPIO_CNF_ANALOG             0
+#define GPIO_CNF_FLOATING           1
+#define GPIO_CNF_INPUT_PUPD         2
 
 // CNF options (for output modes)
-#define GPIO_CNF_GP_PUSH_PULL    0x0
-#define GPIO_CNF_GP_OPEN_DRAIN   0x1
-#define GPIO_CNF_AF_PUSH_PULL    0x2
-#define GPIO_CNF_AF_OPEN_DRAIN   0x3
+#define GPIO_CNF_GP_PUSH_PULL       0
+#define GPIO_CNF_GP_OPEN_DRAIN      1
+#define GPIO_CNF_AF_PUSH_PULL       2
+#define GPIO_CNF_AF_OPEN_DRAIN      3
 
 // Pull configuration (used with CNF = 0b10)
-#define GPIO_PIN_PU              1
-#define GPIO_PIN_PD              0
+#define GPIO_PIN_PU                 1
+#define GPIO_PIN_PD                 0
 
 // GPIO Pin Configuration Structure
 typedef struct
 {
     volatile uint8_t GPIO_PinNumber; // Pin number (0–15)
-    volatile uint8_t GPIO_PinMode;   // Input, Output, AF, Analog (with speed or pull info)
+    volatile uint8_t GPIO_PinMode;   // Input, Output, AF, Analog (with speed or pull info) or Interrupt Mode.
     volatile uint8_t GPIO_PinCNF;    // CNF bits: configuration (PP, OD, floating, etc.)
     volatile uint8_t GPIO_PinPuPdControl;
 } GPIO_PinConfig_t;
