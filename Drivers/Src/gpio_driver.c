@@ -71,30 +71,67 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 {
     uint8_t pin_number = pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber;
 
-    // Select CRL or CRH based on pin number
-    volatile uint32_t *config_reg;
-    if (pin_number <= 7)
-        config_reg = &pGPIOHandle->pGPIOX->CRL;
-    else
-        config_reg = &pGPIOHandle->pGPIOX->CRH;
-
-    uint8_t shift = (pin_number % 8) * 4;
-
-    // Clear previous mode + cnf bits
-    *config_reg &= ~(0xF << shift);
-
-    // Set mode and cnf
-    uint32_t MODE = (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode & 0x3);
-    uint32_t CNF = (pGPIOHandle->GPIO_PinConfig.GPIO_PinCNF & 0x3);
-
-    *config_reg |= ((MODE | (CNF << 2)) << shift);
-
-    if (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_IP && pGPIOHandle->GPIO_PinConfig.GPIO_PinCNF == GPIO_CNF_INPUT_PUPD)
+    if (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode <= GPIO_MODE_OP_50MHZ)
     {
-        if (pGPIOHandle->GPIO_PinConfig.GPIO_PinPuPdControl == GPIO_PIN_PU)
-            pGPIOHandle->pGPIOX->ODR |= (1 << pin_number); // pull-up
+        // Select CRL or CRH based on pin number
+        volatile uint32_t *config_reg;
+        if (pin_number <= 7)
+            config_reg = &pGPIOHandle->pGPIOX->CRL;
         else
-            pGPIOHandle->pGPIOX->ODR &= ~(1 << pin_number); // pull-down
+            config_reg = &pGPIOHandle->pGPIOX->CRH;
+
+        uint8_t shift = (pin_number % 8) * 4;
+
+        // Clear previous mode + cnf bits
+        *config_reg &= ~(0xF << shift);
+
+        // Set mode and cnf
+        uint32_t MODE = (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode & 0x3);
+        uint32_t CNF = (pGPIOHandle->GPIO_PinConfig.GPIO_PinCNF & 0x3);
+
+        *config_reg |= ((MODE | (CNF << 2)) << shift);
+
+        if (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_IP && pGPIOHandle->GPIO_PinConfig.GPIO_PinCNF == GPIO_CNF_INPUT_PUPD)
+        {
+            if (pGPIOHandle->GPIO_PinConfig.GPIO_PinPuPdControl == GPIO_PIN_PU)
+                pGPIOHandle->pGPIOX->ODR |= (1 << pin_number); // pull-up
+            else
+                pGPIOHandle->pGPIOX->ODR &= ~(1 << pin_number); // pull-down
+        }
+    }
+    else
+    {
+        uint8_t index = (pin_number) / 4;
+        uint8_t shift_index = ((pin_number) % 4) * 4;
+
+        // Enalbe EXTI Line for corresponding pin number.
+        if (pGPIOHandle->pGPIOX == GPIOA)
+            AFIO->EXTICR[index] |= (PA << shift_index);
+        else if (pGPIOHandle->pGPIOX == GPIOB)
+            AFIO->EXTICR[index] |= (PB << shift_index);
+        else if (pGPIOHandle->pGPIOX == GPIOC)
+            AFIO->EXTICR[index] |= (PC << shift_index);
+
+        // Disable mask for EXTI line
+        EXTI->IMR |= (1 << pin_number);
+
+        // 1. Configure Rising Trigger
+        if (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_IT_RT)
+        {
+            EXTI->RTSR |= (1 << pin_number);
+            EXTI->FTSR &= ~(1 << pin_number);
+        }
+        // 2. Configure Falling Trigger
+        else if (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_IT_FT)
+        {
+            EXTI->FTSR |= (1 << pin_number);
+            EXTI->RTSR &= ~(1 << pin_number);
+        }
+        else if (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_IT_RFT)
+        {
+            EXTI->RTSR |= (1 << pin_number);
+            EXTI->FTSR |= (1 << pin_number);
+        }
     }
 }
 
