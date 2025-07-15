@@ -205,6 +205,18 @@ typedef struct
 #define GPIOE_CLK_DI()      (RCC->APB2ENR &= ~(1<<6))
 
 
+/*<! EXTI Register Structure >*/
+typedef struct
+{
+    volatile uint32_t IMR;      // 0x00: Interrupt Mask Register
+    volatile uint32_t EMR;      // 0x04: Event Mask Register
+    volatile uint32_t RTSR;     // 0x08: Rising Trigger Selection Register
+    volatile uint32_t FTSR;     // 0x0C: Falling Trigger Selection Register
+    volatile uint32_t SWIER;    // 0x10: Software Interrupt Event Register
+    volatile uint32_t PR;       // 0x14: Pending Register
+} EXTI_RegDef_t;
 
+// Map EXTI to EXTI Register Structure
+#define EXTI                ((EXTI_RegDef_t*)EXTI_BASEADDR)
 
 #endif /* INC_STM32F103XX_H_ */
