@@ -11,11 +11,45 @@
 #include <stdint.h>
 
 // Generic Macros
-#define ENALBE          1
+#define ENABLE          1
 #define DISABLE         0
 #define SET             1
 #define RESET           0
 
+/*******************************************************************************************
+ *                            NVIC Register Macros (Cortex-M4)                             *
+ *                                                                                         *
+ * These macros define the memory-mapped addresses of NVIC registers used to control       *
+ * external interrupts in ARM Cortex-M4 based STM32F4xx devices. Use them to enable,       *
+ * disable, or manage IRQs via direct register access.                                     *
+ *                                                                                         *
+ * ➤ Interrupt Set-Enable Registers (ISERx)                                                 *
+ *     Used to enable external interrupts. Writing 1 to a bit enables the corresponding     *
+ *     IRQ number. Each register controls 32 IRQs:                                          *
+ *       - ISER0: IRQ  0–31                                                                 *
+ *       - ISER1: IRQ 32–63                                                                 *
+ *       - ISER2: IRQ 64–95                                                                 *
+ *                                                                                         *
+ * ➤ Interrupt Clear-Enable Registers (ICERx)                                               *
+ *     Used to disable external interrupts. Writing 1 clears (disables) the corresponding   *
+ *     IRQ. Same IRQ ranges as ISERx apply.                                                 *
+ *******************************************************************************************/
+
+#define NVIC_ISER0      ((volatile uint32_t *)0xE000E100)
+#define NVIC_ISER1      ((volatile uint32_t *)0xE000E104)
+#define NVIC_ISER2      ((volatile uint32_t *)0xE000E108)
+
+#define NVIC_ICER0      ((volatile uint32_t *)0xE000E180)
+#define NVIC_ICER1      ((volatile uint32_t *)0xE000E184)
+#define NVIC_ICER2      ((volatile uint32_t *)0xE000E188)
+
+#define NVIC_ISPR0      ((volatile uint32_t *)0xE000E200)
+#define NVIC_ISPR1      ((volatile uint32_t *)0xE000E204)
+#define NVIC_ISPR2      ((volatile uint32_t *)0xE000E208)
+
+#define NVIC_ICPR0      ((volatile uint32_t *)0xE000E280)
+#define NVIC_ICPR1      ((volatile uint32_t *)0xE000E284)
+#define NVIC_ICPR2      ((volatile uint32_t *)0xE000E288)
 
 /*******************************************************************************************
  *                                STM32F103x MCU Base Addresses                            *
@@ -204,6 +238,13 @@ typedef struct
 #define GPIOD_CLK_DI()      (RCC->APB2ENR &= ~(1<<5))
 #define GPIOE_CLK_DI()      (RCC->APB2ENR &= ~(1<<6))
 
+// Enable Clock for AFIO
+#define AFIO_CLK_EN()       (RCC->APB2ENR |= (1<<0))
+
+// Disable Clock for AFIO
+#define AFIO_CLK_DI()       (RCC->APB2ENR &= ~(1<<0))
+
+
 
 /*<! EXTI Register Structure >*/
 typedef struct
@@ -218,5 +259,14 @@ typedef struct
 
 // Map EXTI to EXTI Register Structure
 #define EXTI                ((EXTI_RegDef_t*)EXTI_BASEADDR)
+
+// IRQ (Interrupt Request) Numbers
+#define IRQ_NO_EXTI0        6
+#define IRQ_NO_EXTI1        7
+#define IRQ_NO_EXTI2        8
+#define IRQ_NO_EXTI3        9
+#define IRQ_NO_EXTI4        10
+#define IRQ_NO_EXTI9_5      23
+#define IRQ_NO_EXTI15_10    40
 
 #endif /* INC_STM32F103XX_H_ */
