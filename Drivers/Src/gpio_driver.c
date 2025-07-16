@@ -12,7 +12,7 @@
  * @brief     Enables or disables peripheral clock for a given GPIO port
  * @param[in] pGPIOx - Base address of the GPIO peripheral (GPIOA, GPIOB, etc.)
  * @param[in] ENorDI - Enable or Disable macro:
- *                     - ENALBE (1) to enable clock
+ *                     - ENABLE (1) to enable clock
  *                     - DISABLE (0) to disable clock
  * @retval    None
  *
@@ -21,7 +21,7 @@
  **************************************************************/
 void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t ENorDI)
 {
-    if (ENorDI == ENALBE)
+    if (ENorDI == ENABLE)
     {
         if (pGPIOx == GPIOA)
             GPIOA_CLK_EN();
@@ -104,7 +104,9 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
         uint8_t index = (pin_number) / 4;
         uint8_t shift_index = ((pin_number) % 4) * 4;
 
-        // Enalbe EXTI Line for corresponding pin number.
+        AFIO_CLK_EN();
+
+        // ENABLE EXTI Line for corresponding pin number.
         if (pGPIOHandle->pGPIOX == GPIOA)
             AFIO->EXTICR[index] |= (PA << shift_index);
         else if (pGPIOHandle->pGPIOX == GPIOB)
@@ -282,4 +284,42 @@ void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber, uint8_t val
 void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
 {
     pGPIOx->ODR ^= (1 << PinNumber);
+}
+
+void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t ENorDI)
+{
+    if (ENorDI == ENABLE)
+    {
+        if (IRQNumber <= 31)
+        {
+            *NVIC_ISER0 |= (1 << IRQNumber);
+        }
+        else if (IRQNumber > 31 && IRQNumber < 64)
+        {
+            *NVIC_ISER1 |= (1 << (IRQNumber % 32));
+        }
+        else if (IRQNumber >= 64 && IRQNumber < 96)
+        {
+            *NVIC_ISER2 |= (1 << (IRQNumber % 64));
+        }
+    }
+    else
+    {
+        if (IRQNumber <= 31)
+        {
+            *NVIC_ICER0 |= (1 << IRQNumber);
+        }
+        else if (IRQNumber > 31 && IRQNumber < 64)
+        {
+            *NVIC_ICER1 |= (1 << (IRQNumber % 32));
+        }
+        else if (IRQNumber >= 64 && IRQNumber < 96)
+        {
+            *NVIC_ICER2 |= (1 << (IRQNumber % 64));
+        }
+    }
+}
+
+void GPIO_IRQPriorityConfig(uint8_t IRQPriority){
+    
 }
