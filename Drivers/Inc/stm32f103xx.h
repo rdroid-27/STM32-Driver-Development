@@ -51,6 +51,8 @@
 #define NVIC_ICPR1      ((volatile uint32_t *)0xE000E284)
 #define NVIC_ICPR2      ((volatile uint32_t *)0xE000E288)
 
+#define NVIC_IPR_BASEADDR ((volatile uint32_t *)0xE000E400)
+
 /*******************************************************************************************
  *                                STM32F103x MCU Base Addresses                            *
  *                                                                                         *

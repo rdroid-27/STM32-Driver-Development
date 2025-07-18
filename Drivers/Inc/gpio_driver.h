@@ -101,7 +101,10 @@ void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber, uint8_t val
 void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber);
 
 // Configures NVIC interrupt settings for the given GPIO pin
-void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t ENorDI);
+void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t ENorDI);
+
+// 
+void GPIO_IRQPriorityConfig(uint8_t IRQPriority,uint8_t IRQNumber);
 
 // Handles the interrupt for a given GPIO pin
 void GPIO_IRQHandling(uint8_t PinNumber);
