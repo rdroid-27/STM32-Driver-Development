@@ -246,8 +246,6 @@ typedef struct
 // Disable Clock for AFIO
 #define AFIO_CLK_DI()       (RCC->APB2ENR &= ~(1<<0))
 
-
-
 /*<! EXTI Register Structure >*/
 typedef struct
 {

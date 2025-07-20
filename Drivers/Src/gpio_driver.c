@@ -103,10 +103,32 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
     {
         uint8_t index = (pin_number) / 4;
         uint8_t shift_index = ((pin_number) % 4) * 4;
+        uint8_t shift = (pin_number % 8) * 4;
 
+        // Step 0: Configure CRL/CRH for input with CNF = 10 (PUPD)
+        volatile uint32_t *config_reg;
+        if (pin_number <= 7)
+            config_reg = &pGPIOHandle->pGPIOX->CRL;
+        else
+            config_reg = &pGPIOHandle->pGPIOX->CRH;
+
+        *config_reg &= ~(0xF << shift); // Clear 4 bits
+
+        uint32_t MODE = GPIO_MODE_IP; // MODE = 0b00
+        uint32_t CNF = pGPIOHandle->GPIO_PinConfig.GPIO_PinCNF & 0x3;
+
+        *config_reg |= ((MODE | (CNF << 2)) << shift);
+
+        // Step 1: Configure pull-up or pull-down
+        if (pGPIOHandle->GPIO_PinConfig.GPIO_PinPuPdControl == GPIO_PIN_PU)
+            pGPIOHandle->pGPIOX->ODR |= (1 << pin_number); // pull-up
+        else
+            pGPIOHandle->pGPIOX->ODR &= ~(1 << pin_number); // pull-down
+
+        // Step 2: Enable AFIO and configure EXTICR
         AFIO_CLK_EN();
+        AFIO->EXTICR[index] &= ~(0xF << shift_index);
 
-        // ENABLE EXTI Line for corresponding pin number.
         if (pGPIOHandle->pGPIOX == GPIOA)
             AFIO->EXTICR[index] |= (PA << shift_index);
         else if (pGPIOHandle->pGPIOX == GPIOB)
@@ -114,16 +136,12 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
         else if (pGPIOHandle->pGPIOX == GPIOC)
             AFIO->EXTICR[index] |= (PC << shift_index);
 
-        // Disable mask for EXTI line
-        EXTI->IMR |= (1 << pin_number);
-
-        // 1. Configure Rising Trigger
+        // Step 3: Configure edge trigger
         if (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_IT_RT)
         {
             EXTI->RTSR |= (1 << pin_number);
             EXTI->FTSR &= ~(1 << pin_number);
         }
-        // 2. Configure Falling Trigger
         else if (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_IT_FT)
         {
             EXTI->FTSR |= (1 << pin_number);
@@ -134,6 +152,9 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
             EXTI->RTSR |= (1 << pin_number);
             EXTI->FTSR |= (1 << pin_number);
         }
+
+        // Step 4: Enable interrupt mask
+        EXTI->IMR |= (1 << pin_number);
     }
 }
 
@@ -320,12 +341,12 @@ void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t ENorDI)
     }
 }
 
-void GPIO_IRQPriorityConfig(uint8_t IRQPriority, uint8_t IRQNumber)
+void GPIO_IRQPriorityConfig(uint32_t IRQPriority, uint8_t IRQNumber)
 {
     uint8_t iprx = IRQNumber / 4;
     uint8_t iprx_section = IRQNumber % 4;
 
-    *(NVIC_IPR_BASEADDR + (4 * iprx)) |= (IRQPriority << ((8 * iprx_section) + 4));
+    *(NVIC_IPR_BASEADDR + (iprx)) |= (IRQPriority << ((8 * iprx_section) + 4));
 }
 
 void GPIO_IRQHandling(uint8_t PinNumber)
