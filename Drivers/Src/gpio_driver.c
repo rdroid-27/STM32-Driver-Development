@@ -307,6 +307,19 @@ void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
     pGPIOx->ODR ^= (1 << PinNumber);
 }
 
+/**************************************************************
+ * @function    GPIO_IRQInterruptConfig
+ * @brief       Enables or disables a specific IRQ number in the NVIC
+ *
+ * @param[in]   IRQNumber  - IRQ number to enable/disable (0–95)
+ * @param[in]   ENorDI     - ENABLE or DISABLE macro
+ *
+ * @retval      None
+ *
+ * @note
+ *   - Uses NVIC ISER (for enable) and ICER (for disable) registers.
+ *   - IRQs 0–31 → ISER0/ICER0, 32–63 → ISER1/ICER1, 64–95 → ISER2/ICER2.
+ **************************************************************/
 void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t ENorDI)
 {
     if (ENorDI == ENABLE)
@@ -341,6 +354,20 @@ void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t ENorDI)
     }
 }
 
+/**************************************************************
+ * @function    GPIO_IRQPriorityConfig
+ * @brief       Configures the priority for a given IRQ number
+ *
+ * @param[in]   IRQPriority - Priority level (0–67, lower is higher priority)
+ * @param[in]   IRQNumber   - IRQ number (0–95)
+ *
+ * @retval      None
+ *
+ * @note
+ *   - Priority is written to the NVIC_IPR (Interrupt Priority Register).
+ *   - Each IPR register holds priority for 4 IRQs, 8 bits per IRQ.
+ *   - STM32 uses only upper 4 bits of each 8-bit priority field.
+ **************************************************************/
 void GPIO_IRQPriorityConfig(uint32_t IRQPriority, uint8_t IRQNumber)
 {
     uint8_t iprx = IRQNumber / 4;
@@ -349,6 +376,18 @@ void GPIO_IRQPriorityConfig(uint32_t IRQPriority, uint8_t IRQNumber)
     *(NVIC_IPR_BASEADDR + (iprx)) |= (IRQPriority << ((8 * iprx_section) + 4));
 }
 
+/**************************************************************
+ * @function    GPIO_IRQHandling
+ * @brief       Clears the pending interrupt flag for a GPIO EXTI line
+ *
+ * @param[in]   PinNumber  - GPIO pin number (0 to 15) linked to EXTI line
+ *
+ * @retval      None
+ *
+ * @note
+ *   - Clears EXTI_PR register by writing '1' to the bit corresponding to the pin.
+ *   - Always check if the pending bit is set before clearing.
+ **************************************************************/
 void GPIO_IRQHandling(uint8_t PinNumber)
 {
     // Clear the bit for pin number in EXTI Pending Register
