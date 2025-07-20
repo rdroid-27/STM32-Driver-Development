@@ -15,7 +15,7 @@ int main()
     GPIO_LED.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OP_10MHZ;
     GPIO_LED.GPIO_PinConfig.GPIO_PinCNF = GPIO_CNF_GP_PUSH_PULL;
 
-    GPIO_PeriClockControl(GPIOC, ENALBE);
+    GPIO_PeriClockControl(GPIOC, ENABLE);
     GPIO_Init(&GPIO_LED);
 
     while (1)

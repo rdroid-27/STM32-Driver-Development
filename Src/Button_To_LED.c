@@ -33,7 +33,7 @@ int main()
     GPIO_LED.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OP_10MHZ;
     GPIO_LED.GPIO_PinConfig.GPIO_PinCNF = GPIO_CNF_GP_PUSH_PULL;
 
-    GPIO_PeriClockControl(GPIOC, ENALBE);
+    GPIO_PeriClockControl(GPIOC, ENABLE);
     GPIO_Init(&GPIO_LED);
 
     // Set GPIO for Button
@@ -43,7 +43,7 @@ int main()
     GPIO_BUTTON.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_IP;
     GPIO_BUTTON.GPIO_PinConfig.GPIO_PinCNF = GPIO_CNF_INPUT_PUPD;
 
-    GPIO_PeriClockControl(GPIOB, ENALBE);
+    GPIO_PeriClockControl(GPIOB, ENABLE);
     GPIO_Init(&GPIO_BUTTON);
 
     while (1)
