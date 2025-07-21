@@ -76,15 +76,59 @@ void SPI_Init(SPI_Handle_t *pSPIHandle)
  * @brief Resets the SPI peripheral registers to their default state
  * @param[in] pSPIx  Pointer to the SPI peripheral base address
  */
-void SPI_DeInit(SPI_RegDef_t *pSPIx);
+void SPI_DeInit(SPI_RegDef_t *pSPIx)
+{
+    if (pSPIx == SPI1)
+    {
+        RCC->APB2RSTR |= (1 << 12);
+        RCC->APB2RSTR &= ~(1 << 12);
+    }
+    else if (pSPIx == SPI2)
+    {
+        RCC->APB1RSTR |= (1 << 14);
+        RCC->APB1RSTR &= ~(1 << 14);
+    }
+    else if (pSPIx == SPI3)
+    {
+        RCC->APB1RSTR |= (1 << 15);
+        RCC->APB1RSTR &= ~(1 << 15);
+    }
+}
 
 /**
  * @brief Sends data using SPI in blocking (polling) mode
  * @param[in] pSPIx      Pointer to the SPI peripheral base address
  * @param[in] pTxBuffer  Pointer to the data buffer to transmit
  * @param[in] len        Number of bytes to send
+ * @note                 This is a blocking call
  */
-void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer, uint32_t len);
+void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer, uint32_t len)
+{
+    // All the bits arr sent
+    while (len > 0)
+    {
+        // 1. Wait for Tx buffer to be empty
+        while (!(pSPIx->SR & (1 << 1)))
+            ;
+
+        if ((pSPIx->CR1 & (1 << 11)) == SPI_DFF_16)
+        {
+            // DFF is 16 bits
+            pSPIx->DR = *((uint16_t *)pTxBuffer);
+            len--;
+            len--;
+            (uint16_t *)pTxBuffer++;
+        }
+        else
+        {
+            // DFF is 8 bits
+            pSPIx->DR = *(pTxBuffer);
+            len--;
+            pTxBuffer++;
+        }
+    }
+    return;
+}
 
 /**
  * @brief Receives data using SPI in blocking (polling) mode
