@@ -41,7 +41,35 @@ void SPI_PeriClockControl(SPI_RegDef_t *pSPIx, uint8_t ENorDI)
  */
 void SPI_Init(SPI_Handle_t *pSPIHandle)
 {
-    
+    // 1. Configure SPI Device Mode
+    pSPIHandle->pSPIX->CR1 |= (pSPIHandle->SPIConfig.SPI_DeviceMode << 2);
+
+    // 2. Configure Bus
+    if (pSPIHandle->SPIConfig.SPI_BusConfig == SPI_BUS_CONFIG_HD)
+        pSPIHandle->pSPIX->CR1 |= (1 << 15);
+    else if (pSPIHandle->SPIConfig.SPI_BusConfig == SPI_BUS_CONFIG_FD)
+        pSPIHandle->pSPIX->CR1 &= ~(1 << 15);
+    else if (pSPIHandle->SPIConfig.SPI_BusConfig == SPI_BUS_CONFIG_SX_RX)
+    {
+        pSPIHandle->pSPIX->CR1 &= ~(1 << 15);
+        pSPIHandle->pSPIX->CR1 |= (1 << 10);
+    }
+
+    // 3. Configure Serial Clock Speed (Baud Rate)
+    pSPIHandle->pSPIX->CR1 &= ~(7 << 3);
+    pSPIHandle->pSPIX->CR1 |= (pSPIHandle->SPIConfig.SPI_SclkSpeed << 3);
+
+    // 4. Configure the DFF
+    pSPIHandle->pSPIX->CR1 &= ~(1 << 11);
+    pSPIHandle->pSPIX->CR1 |= (pSPIHandle->SPIConfig.SPI_DFF << 11);
+
+    // 5. Configure the CPOL
+    pSPIHandle->pSPIX->CR1 &= ~(1 << 1);
+    pSPIHandle->pSPIX->CR1 |= (pSPIHandle->SPIConfig.SPI_CPOL << 1);
+
+    // 6. Configure the CPHA
+    pSPIHandle->pSPIX->CR1 &= ~(1 << 0);
+    pSPIHandle->pSPIX->CR1 |= (pSPIHandle->SPIConfig.SPI_CPHA << 0);
 }
 
 /**
