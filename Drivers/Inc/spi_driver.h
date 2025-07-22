@@ -11,34 +11,33 @@
 #include "stm32f103xx.h"
 
 // SPI Macros
-#define SPI_MODE_MASTER             1
-#define SPI_MODE_SLAVE              0
+#define SPI_MODE_MASTER 1
+#define SPI_MODE_SLAVE 0
 
-#define SPI_BUS_CONFIG_HD           1
-#define SPI_BUS_CONFIG_FD           2
-#define SPI_BUS_CONFIG_SX_RX        3
+#define SPI_BUS_CONFIG_HD 1
+#define SPI_BUS_CONFIG_FD 2
+#define SPI_BUS_CONFIG_SX_RX 3
 
-#define SPI_SCLK_SPEED_DIV2         0
-#define SPI_SCLK_SPEED_DIV4         1
-#define SPI_SCLK_SPEED_DIV8         2
-#define SPI_SCLK_SPEED_DIV16        3
-#define SPI_SCLK_SPEED_DIV32        4
-#define SPI_SCLK_SPEED_DIV64        5
-#define SPI_SCLK_SPEED_DIV128       6
-#define SPI_SCLK_SPEED_DIV256       7
+#define SPI_SCLK_SPEED_DIV2 0
+#define SPI_SCLK_SPEED_DIV4 1
+#define SPI_SCLK_SPEED_DIV8 2
+#define SPI_SCLK_SPEED_DIV16 3
+#define SPI_SCLK_SPEED_DIV32 4
+#define SPI_SCLK_SPEED_DIV64 5
+#define SPI_SCLK_SPEED_DIV128 6
+#define SPI_SCLK_SPEED_DIV256 7
 
-#define SPI_DFF_8                   0
-#define SPI_DFF_16                  1
+#define SPI_DFF_8 0
+#define SPI_DFF_16 1
 
-#define SPI_CPOL_HIGH               1
-#define SPI_CPOL_LOW                0
+#define SPI_CPOL_HIGH 1
+#define SPI_CPOL_LOW 0
 
-#define SPI_CPHA_HIGH               1
-#define SPI_CPHA_LOW                0
+#define SPI_CPHA_HIGH 1
+#define SPI_CPHA_LOW 0
 
-#define SPI_SSM_EN                  1
-#define SPI_SSM_DI                  0
-
+#define SPI_SSM_EN 1
+#define SPI_SSM_DI 0
 
 // SPI Configuration Structure
 typedef struct
@@ -67,6 +66,12 @@ void SPI_PeriClockControl(SPI_RegDef_t *pSPIx, uint8_t ENorDI);
 
 // Initializes the SPI peripheral with the specified configuration
 void SPI_Init(SPI_Handle_t *pSPIHandle);
+
+// Enable or disable SPI
+void SPI_PeripheralControl(SPI_RegDef_t *pSPIx, uint8_t EnorDi);
+
+// Enable or disable SSI (Internal Slave Select)
+void SPI_SSIConfig(SPI_RegDef_t *pSPIx, uint8_t EnorDi);
 
 // Resets the SPI peripheral registers to their default state
 void SPI_DeInit(SPI_RegDef_t *pSPIx);

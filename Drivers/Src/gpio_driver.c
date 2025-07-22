@@ -69,6 +69,9 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t ENorDI)
  **************************************************************/
 void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 {
+    // Enable the clock for peripheral
+    GPIO_PeriClockControl(pGPIOHandle->pGPIOX, ENABLE);
+
     uint8_t pin_number = pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber;
 
     if (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode <= GPIO_MODE_OP_50MHZ)

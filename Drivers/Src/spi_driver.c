@@ -41,6 +41,9 @@ void SPI_PeriClockControl(SPI_RegDef_t *pSPIx, uint8_t ENorDI)
  */
 void SPI_Init(SPI_Handle_t *pSPIHandle)
 {
+    // Enable clock for peripheral
+    SPI_PeriClockControl(pSPIHandle->pSPIX, ENABLE);
+
     // 1. Configure SPI Device Mode
     pSPIHandle->pSPIX->CR1 |= (pSPIHandle->SPIConfig.SPI_DeviceMode << 2);
 
@@ -70,6 +73,40 @@ void SPI_Init(SPI_Handle_t *pSPIHandle)
     // 6. Configure the CPHA
     pSPIHandle->pSPIX->CR1 &= ~(1 << 0);
     pSPIHandle->pSPIX->CR1 |= (pSPIHandle->SPIConfig.SPI_CPHA << 0);
+}
+
+/**
+ * @brief Enables or Disables the SPI peripheral
+ * @param[in] pSPIx   Pointer to the SPI peripheral base address (SPI1, SPI2, etc.)
+ * @param[in] ENorDI  ENABLE or DISABLE macro to turn clock on or off
+ */
+void SPI_PeripheralControl(SPI_RegDef_t *pSPIx, uint8_t EnorDi)
+{
+    if (EnorDi == ENABLE)
+    {
+        pSPIx->CR1 |= (1 << 6);
+    }
+    else
+    {
+        pSPIx->CR1 &= ~(1 << 6);
+    }
+}
+
+/**
+ * @brief Enables or Disables the SSI for multimaster/MODEF situation
+ * @param[in] pSPIx   Pointer to the SPI peripheral base address (SPI1, SPI2, etc.)
+ * @param[in] ENorDI  ENABLE or DISABLE macro to turn clock on or off
+ */
+void SPI_SSIConfig(SPI_RegDef_t *pSPIx, uint8_t EnorDi)
+{
+    if (EnorDi == ENABLE)
+    {
+        pSPIx->CR1 |= (1 << 8);
+    }
+    else
+    {
+        pSPIx->CR1 &= ~(1 << 8);
+    }
 }
 
 /**
@@ -104,14 +141,14 @@ void SPI_DeInit(SPI_RegDef_t *pSPIx)
  */
 void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer, uint32_t len)
 {
-    // All the bits arr sent
+    // All the bits are sent
     while (len > 0)
     {
         // 1. Wait for Tx buffer to be empty
         while (!(pSPIx->SR & (1 << 1)))
             ;
 
-        if ((pSPIx->CR1 & (1 << 11)) == SPI_DFF_16)
+        if ((uint8_t)(pSPIx->CR1 & (1 << 11)) == SPI_DFF_16)
         {
             // DFF is 16 bits
             pSPIx->DR = *((uint16_t *)pTxBuffer);

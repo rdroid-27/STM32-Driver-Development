@@ -298,4 +298,6 @@ typedef struct
 #define SPI2_CLK_DI()      (RCC->APB2ENR &= ~(1<<14))
 #define SPI3_CLK_DI()      (RCC->APB2ENR &= ~(1<<15))
 
+#include "gpio_driver.h"
+#include "spi_driver.h"
 #endif /* INC_STM32F103XX_H_ */
