@@ -173,7 +173,33 @@ void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer, uint32_t len)
  * @param[out] pRxBuffer Pointer to the buffer where received data will be stored
  * @param[in] len        Number of bytes to receive
  */
-void SPI_RecieveData(SPI_RegDef_t *pSPIx, uint8_t *pRxBuffer, uint32_t len);
+void SPI_RecieveData(SPI_RegDef_t *pSPIx, uint8_t *pRxBuffer, uint32_t len)
+{
+    // All the bits are Recieved
+    while (len > 0)
+    {
+        // 1. Wait for Rx buffer to be empty
+        while ((pSPIx->SR & (1 << 0)))
+            ;
+
+        if ((uint8_t)(pSPIx->CR1 & (1 << 11)) == SPI_DFF_16)
+        {
+            // DFF is 16 bits
+            *((uint16_t *)pRxBuffer) = pSPIx->DR;
+            len--;
+            len--;
+            (uint16_t *)pRxBuffer++;
+        }
+        else
+        {
+            // DFF is 8 bits
+            *pRxBuffer = pSPIx->DR;
+            len--;
+            pRxBuffer++;
+        }
+    }
+    return;
+}
 
 /**
  * @brief Enables or disables the SPI interrupt for a given IRQ number
