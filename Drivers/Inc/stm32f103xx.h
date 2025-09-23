@@ -11,10 +11,10 @@
 #include <stdint.h>
 
 // Generic Macros
-#define ENABLE          1
-#define DISABLE         0
-#define SET             1
-#define RESET           0
+#define ENABLE 1
+#define DISABLE 0
+#define SET 1
+#define RESET 0
 
 /*******************************************************************************************
  *                            NVIC Register Macros (Cortex-M4)                             *
@@ -35,21 +35,21 @@
  *     IRQ. Same IRQ ranges as ISERx apply.                                                 *
  *******************************************************************************************/
 
-#define NVIC_ISER0      ((volatile uint32_t *)0xE000E100)
-#define NVIC_ISER1      ((volatile uint32_t *)0xE000E104)
-#define NVIC_ISER2      ((volatile uint32_t *)0xE000E108)
+#define NVIC_ISER0 ((volatile uint32_t *)0xE000E100)
+#define NVIC_ISER1 ((volatile uint32_t *)0xE000E104)
+#define NVIC_ISER2 ((volatile uint32_t *)0xE000E108)
 
-#define NVIC_ICER0      ((volatile uint32_t *)0xE000E180)
-#define NVIC_ICER1      ((volatile uint32_t *)0xE000E184)
-#define NVIC_ICER2      ((volatile uint32_t *)0xE000E188)
+#define NVIC_ICER0 ((volatile uint32_t *)0xE000E180)
+#define NVIC_ICER1 ((volatile uint32_t *)0xE000E184)
+#define NVIC_ICER2 ((volatile uint32_t *)0xE000E188)
 
-#define NVIC_ISPR0      ((volatile uint32_t *)0xE000E200)
-#define NVIC_ISPR1      ((volatile uint32_t *)0xE000E204)
-#define NVIC_ISPR2      ((volatile uint32_t *)0xE000E208)
+#define NVIC_ISPR0 ((volatile uint32_t *)0xE000E200)
+#define NVIC_ISPR1 ((volatile uint32_t *)0xE000E204)
+#define NVIC_ISPR2 ((volatile uint32_t *)0xE000E208)
 
-#define NVIC_ICPR0      ((volatile uint32_t *)0xE000E280)
-#define NVIC_ICPR1      ((volatile uint32_t *)0xE000E284)
-#define NVIC_ICPR2      ((volatile uint32_t *)0xE000E288)
+#define NVIC_ICPR0 ((volatile uint32_t *)0xE000E280)
+#define NVIC_ICPR1 ((volatile uint32_t *)0xE000E284)
+#define NVIC_ICPR2 ((volatile uint32_t *)0xE000E288)
 
 #define NVIC_IPR_BASEADDR ((volatile uint32_t *)0xE000E400)
 
@@ -76,85 +76,85 @@
  *******************************************************************************************/
 
 /*<! Memory Addresses >*/
-#define SRAM_BASEADDR           0x20000000U
-#define FLASH_BASEADDR          0x08000000U
+#define SRAM_BASEADDR 0x20000000U
+#define FLASH_BASEADDR 0x08000000U
 
 /*<! Bus Addresses >*/
-#define AHB_BASEADDR            0x40018000U
-#define APB2_BASEADDR           0x40010000U
-#define APB1_BASEADDR           0x40000000U
+#define AHB_BASEADDR 0x40018000U
+#define APB2_BASEADDR 0x40010000U
+#define APB1_BASEADDR 0x40000000U
 
 /*<! APB1 Preipherals Addresses >*/
-#define TIM2_BASEADDR           0x40000000U
-#define TIM3_BASEADDR           0x40000400U
-#define TIM4_BASEADDR           0x40000800U
-#define TIM5_BASEADDR           0x40000C00U
-#define TIM6_BASEADDR           0x40001000U
-#define TIM7_BASEADDR           0x40001400U
-#define TIM12_BASEADDR          0x40001800U
-#define TIM13_BASEADDR          0x40001C00U
-#define TIM14_BASEADDR          0x40002000U
-#define RTC_BASEADDR            0x40002800U
-#define WWDG_BASEADDR           0x40002C00U
-#define IWDG_BASEADDR           0x40003000U
-#define SPI2_BASEADDR           0x40003800U
-#define SPI3_BASEADDR           0x40003C00U
-#define USART2_BASEADDR         0x40004400U
-#define USART3_BASEADDR         0x40004800U
-#define UART4_BASEADDR          0x40004C00U
-#define UART5_BASEADDR          0x40005000U
-#define I2C1_BASEADDR           0x40005400U
-#define I2C2_BASEADDR           0x40005800U
-#define USB_DEVICE_FS_BASEADDR  0x40005C00U
-#define USB_CAN_SRAM_BASEADDR   0x40006000U
-#define CAN2_BASEADDR           0x40006800U
-#define CAN1_BASEADDR           0x40006400U
-#define BKP_BASEADDR            0x40006C00U
-#define PWR_BASEADDR            0x40007000U
-#define DAC_BASEADDR            0x40007400U
+#define TIM2_BASEADDR 0x40000000U
+#define TIM3_BASEADDR 0x40000400U
+#define TIM4_BASEADDR 0x40000800U
+#define TIM5_BASEADDR 0x40000C00U
+#define TIM6_BASEADDR 0x40001000U
+#define TIM7_BASEADDR 0x40001400U
+#define TIM12_BASEADDR 0x40001800U
+#define TIM13_BASEADDR 0x40001C00U
+#define TIM14_BASEADDR 0x40002000U
+#define RTC_BASEADDR 0x40002800U
+#define WWDG_BASEADDR 0x40002C00U
+#define IWDG_BASEADDR 0x40003000U
+#define SPI2_BASEADDR 0x40003800U
+#define SPI3_BASEADDR 0x40003C00U
+#define USART2_BASEADDR 0x40004400U
+#define USART3_BASEADDR 0x40004800U
+#define UART4_BASEADDR 0x40004C00U
+#define UART5_BASEADDR 0x40005000U
+#define I2C1_BASEADDR 0x40005400U
+#define I2C2_BASEADDR 0x40005800U
+#define USB_DEVICE_FS_BASEADDR 0x40005C00U
+#define USB_CAN_SRAM_BASEADDR 0x40006000U
+#define CAN2_BASEADDR 0x40006800U
+#define CAN1_BASEADDR 0x40006400U
+#define BKP_BASEADDR 0x40006C00U
+#define PWR_BASEADDR 0x40007000U
+#define DAC_BASEADDR 0x40007400U
 
-#define APB1_RESERVED1_BASE     0x40007800U  // Reserved up to 0x4000FFFFU
-
-/*<! APB2 Preipherals Addresses >*/
-#define AFIO_BASEADDR           0x40010000U
-#define EXTI_BASEADDR           0x40010400U
-#define GPIOA_BASEADDR          0x40010800U
-#define GPIOB_BASEADDR          0x40010C00U
-#define GPIOC_BASEADDR          0x40011000U
-#define GPIOD_BASEADDR          0x40011400U
-#define GPIOE_BASEADDR          0x40011800U
-#define GPIOF_BASEADDR          0x40011C00U
-#define GPIOG_BASEADDR          0x40012000U
-#define ADC1_BASEADDR           0x40012400U
-#define ADC2_BASEADDR           0x40012800U
-#define TIM1_BASEADDR           0x40012C00U
-#define SPI1_BASEADDR           0x40013000U
-#define TIM8_BASEADDR           0x40013400U
-#define USART1_BASEADDR         0x40013800U
-#define ADC3_BASEADDR           0x40013C00U
-#define TIM9_BASEADDR           0x40014C00U
-#define TIM10_BASEADDR          0x40015000U
-#define TIM11_BASEADDR          0x40015400U
-
-#define APB2_RESERVED1_BASE     0x40014000U  // Reserved (0x40014000 - 0x40014BFF)
-#define APB2_RESERVED2_BASE     0x40015800U  // Reserved (0x40015800 - 0x40017FFF)
+#define APB1_RESERVED1_BASE 0x40007800U // Reserved up to 0x4000FFFFU
 
 /*<! APB2 Preipherals Addresses >*/
-#define DMA1_BASEADDR           0x40020000U
-#define DMA2_BASEADDR           0x40020400U
-#define RCC_BASEADDR            0x40021000U
-#define FLASH_INTF_BASEADDR     0x40022000U
-#define CRC_BASEADDR            0x40023000U
-#define ETHERNET_BASEADDR       0x40028000U
-#define SDIO_BASEADDR           0x40018000U
-#define USB_OTG_FS_BASEADDR     0x50000000U
-#define FSMC_BASEADDR           0xA0000000U
+#define AFIO_BASEADDR 0x40010000U
+#define EXTI_BASEADDR 0x40010400U
+#define GPIOA_BASEADDR 0x40010800U
+#define GPIOB_BASEADDR 0x40010C00U
+#define GPIOC_BASEADDR 0x40011000U
+#define GPIOD_BASEADDR 0x40011400U
+#define GPIOE_BASEADDR 0x40011800U
+#define GPIOF_BASEADDR 0x40011C00U
+#define GPIOG_BASEADDR 0x40012000U
+#define ADC1_BASEADDR 0x40012400U
+#define ADC2_BASEADDR 0x40012800U
+#define TIM1_BASEADDR 0x40012C00U
+#define SPI1_BASEADDR 0x40013000U
+#define TIM8_BASEADDR 0x40013400U
+#define USART1_BASEADDR 0x40013800U
+#define ADC3_BASEADDR 0x40013C00U
+#define TIM9_BASEADDR 0x40014C00U
+#define TIM10_BASEADDR 0x40015000U
+#define TIM11_BASEADDR 0x40015400U
 
-#define AHB_RESERVED1_BASE      0x40020800U  // Reserved (0x40020800 - 0x40020FFF)
-#define AHB_RESERVED2_BASE      0x40021400U  // Reserved (0x40021400 - 0x40021FFF)
-#define AHB_RESERVED3_BASE      0x40023400U  // Reserved (0x40023400 - 0x40027FFF)
-#define AHB_RESERVED4_BASE      0x40030000U  // Reserved (0x40030000 - 0x4FFFFFFF)
-#define AHB_RESERVED5_BASE      0x40018400U  // Reserved (0x40018400 - 0x4001FFFF)
+#define APB2_RESERVED1_BASE 0x40014000U // Reserved (0x40014000 - 0x40014BFF)
+#define APB2_RESERVED2_BASE 0x40015800U // Reserved (0x40015800 - 0x40017FFF)
+
+/*<! APB2 Preipherals Addresses >*/
+#define DMA1_BASEADDR 0x40020000U
+#define DMA2_BASEADDR 0x40020400U
+#define RCC_BASEADDR 0x40021000U
+#define FLASH_INTF_BASEADDR 0x40022000U
+#define CRC_BASEADDR 0x40023000U
+#define ETHERNET_BASEADDR 0x40028000U
+#define SDIO_BASEADDR 0x40018000U
+#define USB_OTG_FS_BASEADDR 0x50000000U
+#define FSMC_BASEADDR 0xA0000000U
+
+#define AHB_RESERVED1_BASE 0x40020800U // Reserved (0x40020800 - 0x40020FFF)
+#define AHB_RESERVED2_BASE 0x40021400U // Reserved (0x40021400 - 0x40021FFF)
+#define AHB_RESERVED3_BASE 0x40023400U // Reserved (0x40023400 - 0x40027FFF)
+#define AHB_RESERVED4_BASE 0x40030000U // Reserved (0x40030000 - 0x4FFFFFFF)
+#define AHB_RESERVED5_BASE 0x40018400U // Reserved (0x40018400 - 0x4001FFFF)
 // ==============================================================================
 
 /*******************************************************************************************
@@ -173,103 +173,109 @@
  *    map of each peripheral. These enable safe and readable register access in code.      *
  *******************************************************************************************/
 
-/*<! GPIO Register Structure >*/
+                    /*<! GPIO Register Structure >*/
 typedef struct
 {
-    volatile uint32_t CRL;    // 0x00: Port configuration register low (pins 0–7)
-    volatile uint32_t CRH;    // 0x04: Port configuration register high (pins 8–15)
-    volatile uint32_t IDR;    // 0x08: Input data register
-    volatile uint32_t ODR;    // 0x0C: Output data register
-    volatile uint32_t BSRR;   // 0x10: Bit set/reset register
-    volatile uint32_t BRR;    // 0x14: Bit reset register
-    volatile uint32_t LCKR;   // 0x18: Port configuration lock register
+    volatile uint32_t CRL;  // 0x00: Port configuration register low (pins 0–7)
+    volatile uint32_t CRH;  // 0x04: Port configuration register high (pins 8–15)
+    volatile uint32_t IDR;  // 0x08: Input data register
+    volatile uint32_t ODR;  // 0x0C: Output data register
+    volatile uint32_t BSRR; // 0x10: Bit set/reset register
+    volatile uint32_t BRR;  // 0x14: Bit reset register
+    volatile uint32_t LCKR; // 0x18: Port configuration lock register
 } GPIO_RegDef_t;
 
 // Map GPIOs to GPIO Register Structure
-#define GPIOA               ((GPIO_RegDef_t*)GPIOA_BASEADDR)
-#define GPIOB               ((GPIO_RegDef_t*)GPIOB_BASEADDR)
-#define GPIOC               ((GPIO_RegDef_t*)GPIOC_BASEADDR)
-#define GPIOD               ((GPIO_RegDef_t*)GPIOD_BASEADDR)
-#define GPIOE               ((GPIO_RegDef_t*)GPIOE_BASEADDR)
-#define GPIOF               ((GPIO_RegDef_t*)GPIOF_BASEADDR)
-#define GPIOG               ((GPIO_RegDef_t*)GPIOG_BASEADDR)
+#define GPIOA ((GPIO_RegDef_t *)GPIOA_BASEADDR)
+#define GPIOB ((GPIO_RegDef_t *)GPIOB_BASEADDR)
+#define GPIOC ((GPIO_RegDef_t *)GPIOC_BASEADDR)
+#define GPIOD ((GPIO_RegDef_t *)GPIOD_BASEADDR)
+#define GPIOE ((GPIO_RegDef_t *)GPIOE_BASEADDR)
+#define GPIOF ((GPIO_RegDef_t *)GPIOF_BASEADDR)
+#define GPIOG ((GPIO_RegDef_t *)GPIOG_BASEADDR)
 
 /*<! AFIO Register Structure >*/
 typedef struct
 {
-    volatile uint32_t EVCR;       // 0x00: Event Control Register
-    volatile uint32_t MAPR;       // 0x04: AF Remap and Debug I/O Configuration Register
-    volatile uint32_t EXTICR[4];  // 0x08–0x14: External Interrupt Configuration Registers(EXTICR1–EXTICR4)
-    volatile uint32_t MAPR2;      // 0x18: AF Remap and Debug I/O Configuration Register 2
+    volatile uint32_t EVCR;      // 0x00: Event Control Register
+    volatile uint32_t MAPR;      // 0x04: AF Remap and Debug I/O Configuration Register
+    volatile uint32_t EXTICR[4]; // 0x08–0x14: External Interrupt Configuration Registers(EXTICR1–EXTICR4)
+    volatile uint32_t MAPR2;     // 0x18: AF Remap and Debug I/O Configuration Register 2
 } AFIO_RegDef_t;
 
 // Map AFIO to AFIO Register Structure
-#define AFIO                ((AFIO_RegDef_t*)AFIO_BASEADDR)
+#define AFIO ((AFIO_RegDef_t *)AFIO_BASEADDR)
 
-/*<! RCC Register Structure >*/
+// ==========================================================================================
+
+                    /*<! RCC Register Structure >*/
 typedef struct
 {
-    volatile uint32_t CR;         // 0x00: Clock Control Register
-    volatile uint32_t CFGR;       // 0x04: Clock Configuration Register
-    volatile uint32_t CIR;        // 0x08: Clock Interrupt Register
-    volatile uint32_t APB2RSTR;   // 0x0C: APB2 Peripheral Reset Register
-    volatile uint32_t APB1RSTR;   // 0x10: APB1 Peripheral Reset Register
-    volatile uint32_t AHBENR;     // 0x14: AHB Peripheral Clock Enable Register
-    volatile uint32_t APB2ENR;    // 0x18: APB2 Peripheral Clock Enable Register
-    volatile uint32_t APB1ENR;    // 0x1C: APB1 Peripheral Clock Enable Register
-    volatile uint32_t BDCR;       // 0x20: Backup Domain Control Register
-    volatile uint32_t CSR;        // 0x24: Control/Status Register
-    volatile uint32_t AHBSTR;     // 0x28: AHB Peripheral Reset Register (connectivity line only)
-    volatile uint32_t CFGR2;      // 0x2C: Clock Configuration Register 2 (connectivity line only)
+    volatile uint32_t CR;       // 0x00: Clock Control Register
+    volatile uint32_t CFGR;     // 0x04: Clock Configuration Register
+    volatile uint32_t CIR;      // 0x08: Clock Interrupt Register
+    volatile uint32_t APB2RSTR; // 0x0C: APB2 Peripheral Reset Register
+    volatile uint32_t APB1RSTR; // 0x10: APB1 Peripheral Reset Register
+    volatile uint32_t AHBENR;   // 0x14: AHB Peripheral Clock Enable Register
+    volatile uint32_t APB2ENR;  // 0x18: APB2 Peripheral Clock Enable Register
+    volatile uint32_t APB1ENR;  // 0x1C: APB1 Peripheral Clock Enable Register
+    volatile uint32_t BDCR;     // 0x20: Backup Domain Control Register
+    volatile uint32_t CSR;      // 0x24: Control/Status Register
+    volatile uint32_t AHBSTR;   // 0x28: AHB Peripheral Reset Register (connectivity line only)
+    volatile uint32_t CFGR2;    // 0x2C: Clock Configuration Register 2 (connectivity line only)
 } RCC_RegDef_t;
 
 // Map RCC to RCC Register Structure
-#define RCC                 ((RCC_RegDef_t*)RCC_BASEADDR)
+#define RCC ((RCC_RegDef_t *)RCC_BASEADDR)
 
 // Enable Clock for GPIOs
-#define GPIOA_CLK_EN()      (RCC->APB2ENR |= (1<<2))
-#define GPIOB_CLK_EN()      (RCC->APB2ENR |= (1<<3))
-#define GPIOC_CLK_EN()      (RCC->APB2ENR |= (1<<4))
-#define GPIOD_CLK_EN()      (RCC->APB2ENR |= (1<<5))
-#define GPIOE_CLK_EN()      (RCC->APB2ENR |= (1<<6))
+#define GPIOA_CLK_EN() (RCC->APB2ENR |= (1 << 2))
+#define GPIOB_CLK_EN() (RCC->APB2ENR |= (1 << 3))
+#define GPIOC_CLK_EN() (RCC->APB2ENR |= (1 << 4))
+#define GPIOD_CLK_EN() (RCC->APB2ENR |= (1 << 5))
+#define GPIOE_CLK_EN() (RCC->APB2ENR |= (1 << 6))
 
 // Disable Clock for GPIOs
-#define GPIOA_CLK_DI()      (RCC->APB2ENR &= ~(1<<2))
-#define GPIOB_CLK_DI()      (RCC->APB2ENR &= ~(1<<3))
-#define GPIOC_CLK_DI()      (RCC->APB2ENR &= ~(1<<4))
-#define GPIOD_CLK_DI()      (RCC->APB2ENR &= ~(1<<5))
-#define GPIOE_CLK_DI()      (RCC->APB2ENR &= ~(1<<6))
+#define GPIOA_CLK_DI() (RCC->APB2ENR &= ~(1 << 2))
+#define GPIOB_CLK_DI() (RCC->APB2ENR &= ~(1 << 3))
+#define GPIOC_CLK_DI() (RCC->APB2ENR &= ~(1 << 4))
+#define GPIOD_CLK_DI() (RCC->APB2ENR &= ~(1 << 5))
+#define GPIOE_CLK_DI() (RCC->APB2ENR &= ~(1 << 6))
 
 // Enable Clock for AFIO
-#define AFIO_CLK_EN()       (RCC->APB2ENR |= (1<<0))
+#define AFIO_CLK_EN() (RCC->APB2ENR |= (1 << 0))
 
 // Disable Clock for AFIO
-#define AFIO_CLK_DI()       (RCC->APB2ENR &= ~(1<<0))
+#define AFIO_CLK_DI() (RCC->APB2ENR &= ~(1 << 0))
 
-/*<! EXTI Register Structure >*/
+// ==========================================================================================
+
+                    /*<! EXTI Register Structure >*/
 typedef struct
 {
-    volatile uint32_t IMR;      // 0x00: Interrupt Mask Register
-    volatile uint32_t EMR;      // 0x04: Event Mask Register
-    volatile uint32_t RTSR;     // 0x08: Rising Trigger Selection Register
-    volatile uint32_t FTSR;     // 0x0C: Falling Trigger Selection Register
-    volatile uint32_t SWIER;    // 0x10: Software Interrupt Event Register
-    volatile uint32_t PR;       // 0x14: Pending Register
+    volatile uint32_t IMR;   // 0x00: Interrupt Mask Register
+    volatile uint32_t EMR;   // 0x04: Event Mask Register
+    volatile uint32_t RTSR;  // 0x08: Rising Trigger Selection Register
+    volatile uint32_t FTSR;  // 0x0C: Falling Trigger Selection Register
+    volatile uint32_t SWIER; // 0x10: Software Interrupt Event Register
+    volatile uint32_t PR;    // 0x14: Pending Register
 } EXTI_RegDef_t;
 
 // Map EXTI to EXTI Register Structure
-#define EXTI                ((EXTI_RegDef_t*)EXTI_BASEADDR)
+#define EXTI ((EXTI_RegDef_t *)EXTI_BASEADDR)
 
 // IRQ (Interrupt Request) Numbers
-#define IRQ_NO_EXTI0        6
-#define IRQ_NO_EXTI1        7
-#define IRQ_NO_EXTI2        8
-#define IRQ_NO_EXTI3        9
-#define IRQ_NO_EXTI4        10
-#define IRQ_NO_EXTI9_5      23
-#define IRQ_NO_EXTI15_10    40
+#define IRQ_NO_EXTI0 6
+#define IRQ_NO_EXTI1 7
+#define IRQ_NO_EXTI2 8
+#define IRQ_NO_EXTI3 9
+#define IRQ_NO_EXTI4 10
+#define IRQ_NO_EXTI9_5 23
+#define IRQ_NO_EXTI15_10 40
 
-/*<! SPI Register Structure >*/
+// ==========================================================================================
+
+                    /*<! SPI Register Structure >*/
 typedef struct
 {
     volatile uint32_t CR1;
@@ -281,22 +287,57 @@ typedef struct
     volatile uint32_t TXCRCR;
     volatile uint32_t I2SCFGR;
     volatile uint32_t I2SPR;
-}SPI_RegDef_t;
+} SPI_RegDef_t;
 
 // Map SPIx to SPI Register Structure
-#define SPI1                ((SPI_RegDef_t*)SPI1_BASEADDR)
-#define SPI2                ((SPI_RegDef_t*)SPI2_BASEADDR)
-#define SPI3                ((SPI_RegDef_t*)SPI3_BASEADDR)
+#define SPI1 ((SPI_RegDef_t *)SPI1_BASEADDR)
+#define SPI2 ((SPI_RegDef_t *)SPI2_BASEADDR)
+#define SPI3 ((SPI_RegDef_t *)SPI3_BASEADDR)
 
 // Enable Clock for SPIx
-#define SPI1_CLK_EN()      (RCC->APB2ENR |= (1<<12))
-#define SPI2_CLK_EN()      (RCC->APB2ENR |= (1<<14))
-#define SPI3_CLK_EN()      (RCC->APB2ENR |= (1<<15))
+#define SPI1_CLK_EN() (RCC->APB2ENR |= (1 << 12))
+#define SPI2_CLK_EN() (RCC->APB2ENR |= (1 << 14))
+#define SPI3_CLK_EN() (RCC->APB2ENR |= (1 << 15))
 
 // Disable Clock for SPIx
-#define SPI1_CLK_DI()      (RCC->APB2ENR &= ~(1<<12))
-#define SPI2_CLK_DI()      (RCC->APB2ENR &= ~(1<<14))
-#define SPI3_CLK_DI()      (RCC->APB2ENR &= ~(1<<15))
+#define SPI1_CLK_DI() (RCC->APB2ENR &= ~(1 << 12))
+#define SPI2_CLK_DI() (RCC->APB2ENR &= ~(1 << 14))
+#define SPI3_CLK_DI() (RCC->APB2ENR &= ~(1 << 15))
+
+// SPI interrupts in NVIC
+#define IRQ_NO_SPI1 35
+#define IRQ_NO_SPI2 36
+#define IRQ_NO_SPI3 51
+
+// ==========================================================================================
+
+                    /*<! I2C Register Structure >*/
+typedef struct
+{
+    volatile uint32_t CR1;
+    volatile uint32_t CR2;
+    volatile uint32_t OAR1;
+    volatile uint32_t OAR2;
+    volatile uint32_t DR;
+    volatile uint32_t SR1;
+    volatile uint32_t SR2;
+    volatile uint32_t CCR;
+    volatile uint32_t TRISE;
+} I2C_RegDef_t;
+
+// Map I2Cx to I2C Register Structure
+#define I2C1 ((I2C_RegDef_t *)I2C1_BASEADDR)
+#define I2C3 ((I2C_RegDef_t *)I2C2_BASEADDR)
+
+// Enable Clock for I2Cx
+#define I2C1_CLK_EN() (RCC->APB1ENR |= (1 << 21))
+#define I2C2_CLK_EN() (RCC->APB1ENR |= (1 << 22))
+
+// Disable Clock for I2Cx
+#define I2C1_CLK_DI() (RCC->APB1ENR &= ~(1 << 21))
+#define I2C2_CLK_DI() (RCC->APB1ENR &= ~(1 << 22))
+
+
 
 #include "gpio_driver.h"
 #include "spi_driver.h"
