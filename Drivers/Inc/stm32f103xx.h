@@ -296,13 +296,13 @@ typedef struct
 
 // Enable Clock for SPIx
 #define SPI1_CLK_EN() (RCC->APB2ENR |= (1 << 12))
-#define SPI2_CLK_EN() (RCC->APB2ENR |= (1 << 14))
-#define SPI3_CLK_EN() (RCC->APB2ENR |= (1 << 15))
+#define SPI2_CLK_EN() (RCC->APB1ENR |= (1 << 14))
+#define SPI3_CLK_EN() (RCC->APB1ENR |= (1 << 15))
 
 // Disable Clock for SPIx
 #define SPI1_CLK_DI() (RCC->APB2ENR &= ~(1 << 12))
-#define SPI2_CLK_DI() (RCC->APB2ENR &= ~(1 << 14))
-#define SPI3_CLK_DI() (RCC->APB2ENR &= ~(1 << 15))
+#define SPI2_CLK_DI() (RCC->APB1ENR &= ~(1 << 14))
+#define SPI3_CLK_DI() (RCC->APB1ENR &= ~(1 << 15))
 
 // SPI interrupts in NVIC
 #define IRQ_NO_SPI1 35
@@ -337,7 +337,44 @@ typedef struct
 #define I2C1_CLK_DI() (RCC->APB1ENR &= ~(1 << 21))
 #define I2C2_CLK_DI() (RCC->APB1ENR &= ~(1 << 22))
 
+// ==========================================================================================
+                    /*<! USART Register Structure >*/
+typedef struct
+{
+    volatile uint32_t SR;
+    volatile uint32_t DR;
+    volatile uint32_t BRR;
+    volatile uint32_t CR1;
+    volatile uint32_t CR2;
+    volatile uint32_t CR3;
+    volatile uint32_t GTPR;
+} USART_RegDef_t;
 
+// Map USARTx to USART Register Structure
+#define USART1 ((USART_RegDef_t *)USART1_BASEADDR)
+#define USART2 ((USART_RegDef_t *)USART2_BASEADDR)
+#define USART3 ((USART_RegDef_t *)USART3_BASEADDR)
+#define UART4  ((USART_RegDef_t *)UART4_BASEADDR)
+#define UART5  ((USART_RegDef_t *)UART5_BASEADDR)
+
+
+// Enable Clock for USARTx
+#define USART1_CLK_EN() (RCC->APB2ENR |= (1 << 14))
+#define USART2_CLK_EN() (RCC->APB1ENR |= (1 << 17))
+#define USART3_CLK_EN() (RCC->APB1ENR |= (1 << 18))
+#define UART4_CLK_EN()  (RCC->APB1ENR |= (1 << 19))
+#define UART5_CLK_EN()  (RCC->APB1ENR |= (1 << 20))
+
+
+// Disable Clock for USARTx
+#define USART1_CLK_DI() (RCC->APB2ENR &= ~(1 << 14))
+#define USART2_CLK_DI() (RCC->APB1ENR &= ~(1 << 17))
+#define USART3_CLK_DI() (RCC->APB1ENR &= ~(1 << 18))
+#define UART4_CLK_DI()  (RCC->APB1ENR &= ~(1 << 19))
+#define UART5_CLK_DI()  (RCC->APB1ENR &= ~(1 << 20))
+
+
+// ==========================================================================================
 
 #include "gpio_driver.h"
 #include "spi_driver.h"
