@@ -378,4 +378,5 @@ typedef struct
 
 #include "gpio_driver.h"
 #include "spi_driver.h"
+#include "usart_driver.h"
 #endif /* INC_STM32F103XX_H_ */
