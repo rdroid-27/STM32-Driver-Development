@@ -58,6 +58,17 @@ typedef struct
 #define USART_HW_FLOW_CTRL_RTS 2
 #define USART_HW_FLOW_CTRL_CTS_RTS 3
 
+#define USART_CR1_RE 2
+#define USART_CR1_TE 3
+#define USART_CR1_PS 9
+#define USART_CR1_PCE 10
+#define USART_CR1_M 12
+
+#define USART_CR2_STOP 12
+
+#define USART_CR3_RTSE 8
+#define USART_CR3_CTSE 9
+
 /**************************************************************
  *                     USART Driver API Prototypes             *
  **************************************************************/
