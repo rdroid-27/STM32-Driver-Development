@@ -58,6 +58,10 @@ typedef struct
 #define USART_HW_FLOW_CTRL_RTS 2
 #define USART_HW_FLOW_CTRL_CTS_RTS 3
 
+#define USART_SR_RXNE 5
+#define USART_SR_TC 6
+#define USART_SR_TXE 7
+
 #define USART_CR1_RE 2
 #define USART_CR1_TE 3
 #define USART_CR1_PS 9
