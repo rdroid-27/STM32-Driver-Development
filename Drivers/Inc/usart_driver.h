@@ -16,6 +16,12 @@ typedef struct
 {
     USART_RegDef_t *pUSARTx;
     USART_Config_t USART_Config;
+    uint8_t *pTxBuffer;
+    uint8_t *pRxBuffer;
+    uint32_t TxLen;
+    uint32_t RxLen;
+    uint8_t TxBusyState;
+    uint8_t RxBusyState;
 } USART_Handle_t;
 
 // USART_Mode
@@ -64,6 +70,9 @@ typedef struct
 
 #define USART_CR1_RE 2
 #define USART_CR1_TE 3
+#define USART_CR1_RXNEIE 5
+#define USART_CR1_TCIE 6
+#define USART_CR1_TXEIE 7
 #define USART_CR1_PS 9
 #define USART_CR1_PCE 10
 #define USART_CR1_M 12
@@ -72,6 +81,25 @@ typedef struct
 
 #define USART_CR3_RTSE 8
 #define USART_CR3_CTSE 9
+
+// USART flags
+#define USART_FLAG_RXNE (1 << USART_SR_RXNE)
+#define USART_FLAG_TC (1 << USART_SR_TC)
+#define USART_FLAG_TXE (1 << USART_SR_TXE)
+
+// Application states
+#define USART_BUSY_IN_RX 1
+#define USART_BUSY_IN_TX 2
+#define USART_READY 0
+
+#define USART_EVENT_TX_CMPLT 0
+#define USART_EVENT_RX_CMPLT 1
+#define USART_EVENT_IDLE 2
+#define USART_EVENT_CTS 3
+#define USART_EVENT_PE 4
+#define USART_ERR_FE 5
+#define USART_ERR_NE 6
+#define USART_ERR_ORE 7
 
 /**************************************************************
  *                     USART Driver API Prototypes             *
