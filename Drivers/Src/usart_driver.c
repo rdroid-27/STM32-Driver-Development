@@ -1,9 +1,10 @@
 #include "usart_driver.h"
 
 /**
- * @brief Enables or disables the peripheral clock for the given USART port
- * @param[in] pUSARTx   Pointer to the USART peripheral base address (USART1, USART2, etc.)
- * @param[in] ENorDI  ENABLE or DISABLE macro to turn clock on or off
+ * @fn                  USART_PeriClockControl
+ * @brief               Enables or disables the peripheral clock for the given USART port
+ * @param[in] pUSARTx   Pointer to USART Peripheral Register
+ * @param[in] ENorDI    ENABLE or DISABLE macro to turn clock on or off
  */
 void USART_PeriClockControl(USART_RegDef_t *pUSARTx, uint8_t ENorDI)
 {
@@ -36,9 +37,10 @@ void USART_PeriClockControl(USART_RegDef_t *pUSARTx, uint8_t ENorDI)
 }
 
 /**
- * @brief Enables or Disables the USART peripheral
- * @param[in] pUSARTx   Pointer to the USART peripheral base address (USART1, USART2, etc.)
- * @param[in] ENorDI  ENABLE or DISABLE macro to turn peripheral on or off
+ * @fn                  USART_PeripheralControl
+ * @brief               Enables or Disables the USART peripheral
+ * @param[in] pUSARTx   Pointer to USART Peripheral Register
+ * @param[in] ENorDI    ENABLE or DISABLE macro to turn peripheral on or off
  */
 void USART_PeripheralControl(USART_RegDef_t *pUSARTx, uint8_t EnorDi)
 {
@@ -53,9 +55,10 @@ void USART_PeripheralControl(USART_RegDef_t *pUSARTx, uint8_t EnorDi)
 }
 
 /**
- * @brief Initializes the USART peripheral with the specified configuration
+ * @fn                      USART_Init
+ * @brief                   Initializes the USART peripheral with the specified configuration
  * @param[in] pUSARTHandle  Pointer to the USART handle structure with config settings
- * @note Call USART_PeriClockControl() before this to enable the clock.
+ * @note                    Call USART_PeriClockControl() before this to enable the clock.
  */
 void USART_Init(USART_Handle_t *pUSARTHandle)
 {
@@ -139,14 +142,13 @@ void USART_Init(USART_Handle_t *pUSARTHandle)
     // We will cover this in the lecture. No action required here
 }
 
-/*********************************************************************
- * @fn      		  - USART_SendData
- * @brief             -
- * @param[in]         -
- * @param[in]         -
- * @param[in]         -
- * @return            -
- * @Note              - Resolve all the TODOs
+/**
+ * @fn                          USART_SendData
+ * @brief                       Send data over USART
+ * @param[in] pUSARTHandle      Pointer to the USART handle structure with config settings
+ * @param[in] pTxBuffer         Pointer to the Transmission Buffer
+ * @param[in] Len               Length of data to be transmitted
+ * @return                      Void
  */
 void USART_SendData(USART_Handle_t *pUSARTHandle, uint8_t *pTxBuffer, uint32_t Len)
 {
@@ -155,28 +157,26 @@ void USART_SendData(USART_Handle_t *pUSARTHandle, uint8_t *pTxBuffer, uint32_t L
     // Loop over until "Len" number of bytes are transferred
     for (uint32_t i = 0; i < Len; i++)
     {
-        // Implement the code to wait until TXE flag is set in the SR
-        while (!USART_GetFlagStatus(pUSARTHandle->pUSARTx, USART_SR_TXE))
+        // Wait until TXE flag is set in the SR
+        while (!USART_GetFlagStatus(pUSARTHandle->pUSARTx, USART_FLAG_TXE))
             ;
 
-        // Check the USART_WordLength item for 9BIT or 8BIT in a frame
+        // This is 9bit data transfer
         if (pUSARTHandle->USART_Config.USART_WordLength == USART_WORDLEN_9BITS)
         {
-            // if 9BIT, load the DR with 2bytes masking the bits other than first 9 bits
             pdata = (uint16_t *)pTxBuffer;
             pUSARTHandle->pUSARTx->DR = (*pdata & (uint16_t)0x01FF);
 
             // check for USART_ParityControl
             if (pUSARTHandle->USART_Config.USART_ParityControl == USART_PARITY_DISABLE)
             {
-                // No parity is used in this transfer. so, 9bits of user data will be sent
+                // No parity, 9bits of user data will be sent
                 pTxBuffer++;
                 pTxBuffer++;
             }
             else
             {
-                // Parity bit is used in this transfer . so , 8bits of user data will be sent
-                // The 9th bit will be replaced by parity bit by the hardware
+                // Parity bit is used, 8bits of user data will be sent
                 pTxBuffer++;
             }
         }
@@ -184,33 +184,30 @@ void USART_SendData(USART_Handle_t *pUSARTHandle, uint8_t *pTxBuffer, uint32_t L
         {
             // This is 8bit data transfer
             pUSARTHandle->pUSARTx->DR = (*pTxBuffer & (uint8_t)0xFF);
-
-            // Implement the code to increment the buffer address
             pTxBuffer++;
         }
     }
 
-    // Implement the code to wait till TC flag is set in the SR
-    while (!USART_GetFlagStatus(pUSARTHandle->pUSARTx, USART_SR_TC))
+    // Wait till TC flag is set in the SR
+    while (!USART_GetFlagStatus(pUSARTHandle->pUSARTx, USART_FLAG_TC))
         ;
 }
 
 /*********************************************************************
- * @fn      		  - USART_ReceiveData
- * @brief             -
- * @param[in]         -
- * @param[in]         -
- * @param[in]         -
- * @return            -
- * @Note              -
+ * @fn                          USART_ReceiveData
+ * @brief                       Recieve data over USART
+ * @param[in] pUSARTHandle      Pointer to the USART handle structure with config settings
+ * @param[in] pRxBuffer         Pointer to the Reciever Buffer
+ * @param[in] Len               Length of data to be Recieved
+ * @return                      Void
  */
 void USART_ReceiveData(USART_Handle_t *pUSARTHandle, uint8_t *pRxBuffer, uint32_t Len)
 {
     // Loop over until "Len" number of bytes are transferred
     for (uint32_t i = 0; i < Len; i++)
     {
-        // Implement the code to wait until RXNE flag is set in the SR
-        while (!USART_GetFlagStatus(pUSARTHandle->pUSARTx, USART_SR_RXNE))
+        // Wait until RXNE flag is set in the SR
+        while (!USART_GetFlagStatus(pUSARTHandle->pUSARTx, USART_FLAG_RXNE))
             ;
 
         // Check the USART_WordLength to decide whether we are going to receive 9bit of data in a frame or 8 bit
@@ -266,73 +263,84 @@ void USART_ReceiveData(USART_Handle_t *pUSARTHandle, uint8_t *pRxBuffer, uint32_
     }
 }
 
-// /*********************************************************************
-//  * @fn      		  - USART_SendDataWithIT
-//  *
-//  * @brief             -
-//  *
-//  * @param[in]         -
-//  * @param[in]         -
-//  * @param[in]         -
-//  *
-//  * @return            -
-//  *
-//  * @Note              - Resolve all the TODOs
-
-//  */
-// uint8_t USART_SendDataIT(USART_Handle_t *pUSARTHandle, uint8_t *pTxBuffer, uint32_t Len)
-// {
-//     uint8_t txstate = pUSARTHandle->TODO;
-
-//     if (txstate != USART_BUSY_IN_TX)
-//     {
-//         pUSARTHandle->TODO = Len;
-//         pUSARTHandle->pTxBuffer = TODO;
-//         pUSARTHandle->TxBusyState = TODO;
-
-//         // Implement the code to enable interrupt for TXE
-//         TODO
-
-//             // Implement the code to enable interrupt for TC
-//             TODO
-//     }
-
-//     return txstate;
-// }
-
-// /*********************************************************************
-//  * @fn      		  - USART_ReceiveDataIT
-//  *
-//  * @brief             -
-//  *
-//  * @param[in]         -
-//  * @param[in]         -
-//  * @param[in]         -
-//  *
-//  * @return            -
-//  *
-//  * @Note              - Resolve all the TODOs
-
-//  */
-// uint8_t USART_ReceiveDataIT(USART_Handle_t *pUSARTHandle, uint8_t *pRxBuffer, uint32_t Len)
-// {
-//     uint8_t rxstate = pUSARTHandle->TODO;
-
-//     if (rxstate != TODO)
-//     {
-//         pUSARTHandle->RxLen = Len;
-//         pUSARTHandle->pRxBuffer = TODO;
-//         pUSARTHandle->RxBusyState = TODO;
-
-//         // Implement the code to enable interrupt for RXNE
-//         TODO
-//     }
-
-//     return rxstate;
-// }
-
-uint8_t USART_GetFlagStatus(USART_RegDef_t *pUSARTx, uint32_t FlagName)
+/*********************************************************************
+ * @fn      		  - USART_SendDataWithIT
+ * @brief             -
+ * @param[in]         -
+ * @param[in]         -
+ * @param[in]         -
+ * @return            -
+ */
+uint8_t USART_SendDataIT(USART_Handle_t *pUSARTHandle, uint8_t *pTxBuffer, uint32_t Len)
 {
-    uint8_t Status = (pUSARTx->SR >> FlagName) & (0x01);
-    return Status;
+    uint8_t txstate = pUSARTHandle->USART_Config.USART_Mode;
+
+    if (txstate != USART_BUSY_IN_TX)
+    {
+        pUSARTHandle->TxLen = Len;
+        pUSARTHandle->pTxBuffer = pTxBuffer;
+        pUSARTHandle->TxBusyState = USART_BUSY_IN_TX;
+
+        // Implement the code to enable interrupt for TXE
+        pUSARTHandle->pUSARTx->CR1 |= (1 << USART_CR1_TXEIE);
+
+        // Implement the code to enable interrupt for TC
+        pUSARTHandle->pUSARTx->CR1 |= (1 << USART_CR1_TCIE);
+    }
+
+    return txstate;
+}
+
+/*********************************************************************
+ * @fn      		  - USART_ReceiveDataIT
+ * @brief             -
+ * @param[in]         -
+ * @param[in]         -
+ * @param[in]         -
+ * @return            -
+ */
+uint8_t USART_ReceiveDataIT(USART_Handle_t *pUSARTHandle, uint8_t *pRxBuffer, uint32_t Len)
+{
+    uint8_t rxstate = pUSARTHandle->RxBusyState;
+
+    if (rxstate != USART_BUSY_IN_RX)
+    {
+        pUSARTHandle->RxLen = Len;
+        pUSARTHandle->pRxBuffer = pRxBuffer;
+        pUSARTHandle->RxBusyState = USART_BUSY_IN_RX;
+
+        // Implement the code to enable interrupt for RXNE
+        pUSARTHandle->pUSARTx->CR1 |= (1 << USART_CR1_RXNEIE);
+    }
+
+    return rxstate;
+}
+
+/*********************************************************************
+ * @fn                          USART_GetFlagStatus
+ * @brief                       Get the Flag status from USART_SR Register
+ * @param[in] pUSARTx           Pointer to USART Register Definition
+ * @param[in] StatusFlagName    Flag name to be checked
+ * @return                      uint8 value
+ */
+uint8_t USART_GetFlagStatus(USART_RegDef_t *pUSARTx, uint8_t StatusFlagName)
+{
+    if (pUSARTx->SR & StatusFlagName)
+    {
+        return SET;
+    }
+
+    return RESET;
+}
+
+/*********************************************************************
+ * @fn                          USART_ClearFlag
+ * @brief                       Clear the Flag status from USART_SR Register
+ * @param[in] pUSARTx           Pointer to USART Peripheral Register
+ * @param[in] StatusFlagName    Flag name to be checked
+ * @return                      Void
+ */
+void USART_ClearFlag(USART_RegDef_t *pUSARTx, uint16_t StatusFlagName)
+{
+    pUSARTx->SR &= ~(StatusFlagName);
 }
