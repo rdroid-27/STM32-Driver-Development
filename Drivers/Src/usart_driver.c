@@ -142,6 +142,58 @@ void USART_Init(USART_Handle_t *pUSARTHandle)
     // We will cover this in the lecture. No action required here
 }
 
+/*********************************************************************
+ * @fn      		    USART_SetBaudRate
+ * @brief               Calculate and Set the Baud Rate
+ * @param[in] pUSARTx   Pointer to USART Peripheral Register
+ * @param[in] ENorDI    Baud Rate user want to set
+ * @return              Void
+ */
+void USART_SetBaudRate(USART_RegDef_t *pUSARTx, uint32_t BaudRate)
+{
+
+    // Variable to hold the APB clock
+    uint32_t PCLKx;
+
+    uint32_t usartdiv;
+
+    // variables to hold Mantissa and Fraction values
+    uint32_t M_part, F_part;
+
+    uint32_t tempreg = 0;
+
+    // Get the value of APB bus clock in to the variable PCLKx
+    if (pUSARTx == USART1)
+    {
+        // USART1 is hanging on APB2 bus
+        PCLKx = RCC_GetPCLK2Value();
+    }
+    else
+    {
+        PCLKx = RCC_GetPCLK1Value();
+    }
+
+    usartdiv = ((25 * PCLKx) / (2 * BaudRate));
+
+    // Calculate the Mantissa part
+    M_part = usartdiv / 100;
+
+    // Place the Mantissa part in appropriate bit position . refer USART_BRR
+    tempreg |= M_part << 4;
+
+    // Extract the fraction part
+    F_part = (usartdiv - (usartdiv * 100));
+
+    // Calculate the final fractional
+    F_part = (((F_part * 100) + 50) / 100) & ((uint8_t)0x07);
+
+    // Place the fractional part in appropriate bit position . refer USART_BRR
+    tempreg |= F_part;
+
+    // copy the value of tempreg in to BRR register
+    pUSARTx->BRR = tempreg;
+}
+
 /**
  * @fn                          USART_SendData
  * @brief                       Send data over USART
