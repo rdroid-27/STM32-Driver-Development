@@ -1,10 +1,3 @@
-/*
- * gpio_driver.c
- *
- *  Created on: Jul 8, 2025
- *      Author: GANDALF
- */
-
 #include "gpio_driver.h"
 
 /**************************************************************
@@ -15,7 +8,6 @@
  *                     - ENABLE (1) to enable clock
  *                     - DISABLE (0) to disable clock
  * @retval    None
- *
  * @note      The RCC peripheral clock for the GPIO must be enabled
  *            before any read/write/config operations can be performed.
  **************************************************************/
@@ -52,11 +44,10 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t ENorDI)
 /**************************************************************
  * @function    GPIO_Init
  * @brief       Configures the mode and configuration for a GPIO pin
- *
  * @param[in]   pGPIOHandle - Pointer to GPIO handle structure that contains:
  *                - GPIO port base address (pGPIOx)
  *                - GPIO pin configuration structure (GPIO_PinConfig)
- *
+ * @retval      None
  * @note
  *   - For STM32F103 (Blue Pill), each GPIO pin is configured via
  *     4 bits in CRL (pins 0–7) or CRH (pins 8–15):
@@ -64,8 +55,6 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t ENorDI)
  *       [3:2] CNF : Configuration type (floating, pull-up/down, AF, etc.)
  *   - For input mode with pull-up or pull-down (CNF = 0b10), the
  *     ODR register must also be written to set pull type.
- *
- * @retval      None
  **************************************************************/
 void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 {
@@ -78,20 +67,20 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
     {
         // Select CRL or CRH based on pin number
         volatile uint32_t *config_reg;
+        uint8_t shift = (pin_number % 8) * 4;
+        // Set mode and cnf
+        uint32_t MODE = (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode & 0x3);
+        uint32_t CNF = (pGPIOHandle->GPIO_PinConfig.GPIO_PinCNF & 0x3);
+
+        // Choose between CRL and CRH based on Pin Number
         if (pin_number <= 7)
             config_reg = &pGPIOHandle->pGPIOX->CRL;
         else
             config_reg = &pGPIOHandle->pGPIOX->CRH;
 
-        uint8_t shift = (pin_number % 8) * 4;
-
         // Clear previous mode + cnf bits
         *config_reg &= ~(0xF << shift);
-
-        // Set mode and cnf
-        uint32_t MODE = (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode & 0x3);
-        uint32_t CNF = (pGPIOHandle->GPIO_PinConfig.GPIO_PinCNF & 0x3);
-
+        // Set the Mode and Confiuration
         *config_reg |= ((MODE | (CNF << 2)) << shift);
 
         if (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_IP && pGPIOHandle->GPIO_PinConfig.GPIO_PinCNF == GPIO_CNF_INPUT_PUPD)
@@ -164,15 +153,12 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 /**************************************************************
  * @function    GPIO_DeInit
  * @brief       Resets all registers of the given GPIO port
- *
  * @param[in]   pGPIOX - Base address of GPIO port (e.g., GPIOA, GPIOB...)
- *
+ * @retval      None
  * @note
  *   - This uses RCC->APB2RSTR to reset the GPIO peripheral.
  *   - The reset bit is set and then cleared immediately after,
  *     to avoid holding the GPIO in reset state.
- *
- * @retval      None
  **************************************************************/
 void GPIO_DeInit(GPIO_RegDef_t *pGPIOX)
 {
@@ -216,11 +202,8 @@ void GPIO_DeInit(GPIO_RegDef_t *pGPIOX)
 /**************************************************************
  * @function    GPIO_ReadFromInputPort
  * @brief       Reads the entire 16-bit input port value
- *
  * @param[in]   pGPIOx - Pointer to the GPIO peripheral (GPIOA, GPIOB, etc.)
- *
  * @retval      16-bit value representing all 16 input pins (IDR[15:0])
- *
  * @note
  *   - Each bit corresponds to one pin (0: low, 1: high)
  *   - Useful for reading all pin states at once
@@ -233,12 +216,9 @@ uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx)
 /**************************************************************
  * @function    GPIO_ReadFromInputPin
  * @brief       Reads the logic level from a specific GPIO input pin
- *
  * @param[in]   pGPIOx     - Pointer to GPIO peripheral (e.g., GPIOA)
  * @param[in]   PinNumber  - GPIO pin number (0 to 15)
- *
  * @retval      uint8_t    - 0 if pin is LOW, 1 if pin is HIGH
- *
  * @note
  *   - This reads the bit in IDR corresponding to the pin number.
  *   - Return is normalized to 0 or 1.
@@ -251,10 +231,9 @@ uint8_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
 /**************************************************************
  * @function    GPIO_WriteToOutputPort
  * @brief       Writes a 16-bit value to the entire GPIO output port
- *
  * @param[in]   pGPIOx - Pointer to the GPIO peripheral (GPIOA, GPIOB, etc.)
  * @param[in]   value  - 16-bit value to write to output pins (ODR)
- *
+ * @retval      None
  * @note
  *   - Each bit of `value` corresponds to one output pin:
  *       Bit 0 → Pin 0, Bit 1 → Pin 1, ..., Bit 15 → Pin 15
@@ -268,15 +247,14 @@ void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t value)
 /**************************************************************
  * @function    GPIO_WriteToOutputPin
  * @brief       Writes logic HIGH or LOW to a specific GPIO output pin
- *
  * @param[in]   pGPIOx     - Pointer to GPIO peripheral (e.g., GPIOA)
  * @param[in]   PinNumber  - GPIO pin number (0 to 15)
  * @param[in]   value      - Logic level to write (0 = LOW, 1 = HIGH)
- *
- * @retval      None
- *
+ * @retval      None=
  * @note
  *   - Only the selected pin is modified; other output pins remain unchanged.
+ *   - For atomic bit set/reset, the ODR bits can be individually set and cleared by
+ *     writing to the GPIOx_BSRR register
  *   - This modifies the ODR (Output Data Register) directly.
  **************************************************************/
 void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber, uint8_t value)
@@ -296,12 +274,9 @@ void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber, uint8_t val
 /**************************************************************
  * @function    GPIO_ToggleOutputPin
  * @brief       Toggles the logic level of a specific GPIO output pin
- *
  * @param[in]   pGPIOx     - Pointer to GPIO peripheral (e.g., GPIOA)
  * @param[in]   PinNumber  - GPIO pin number (0 to 15)
- *
  * @retval      None
- *
  * @note
  *   - Uses XOR to toggle the bit in the ODR register.
  **************************************************************/
@@ -313,12 +288,9 @@ void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
 /**************************************************************
  * @function    GPIO_IRQInterruptConfig
  * @brief       Enables or disables a specific IRQ number in the NVIC
- *
  * @param[in]   IRQNumber  - IRQ number to enable/disable (0–95)
  * @param[in]   ENorDI     - ENABLE or DISABLE macro
- *
  * @retval      None
- *
  * @note
  *   - Uses NVIC ISER (for enable) and ICER (for disable) registers.
  *   - IRQs 0–31 → ISER0/ICER0, 32–63 → ISER1/ICER1, 64–95 → ISER2/ICER2.
@@ -360,12 +332,9 @@ void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t ENorDI)
 /**************************************************************
  * @function    GPIO_IRQPriorityConfig
  * @brief       Configures the priority for a given IRQ number
- *
  * @param[in]   IRQPriority - Priority level (0–67, lower is higher priority)
  * @param[in]   IRQNumber   - IRQ number (0–95)
- *
  * @retval      None
- *
  * @note
  *   - Priority is written to the NVIC_IPR (Interrupt Priority Register).
  *   - Each IPR register holds priority for 4 IRQs, 8 bits per IRQ.

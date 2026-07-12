@@ -1,14 +1,19 @@
-/*
- * gpio_driver.h
+/**
+ * @file gpio_driver.h
+ * @brief Public interface for the STM32F103xx GPIO Driver.
  *
- *  Created on: Jul 7, 2025
- *      Author: GANDALF
+ * This module provides APIs for configuring GPIO peripherals,
+ * reading and writing GPIO pins, and configuring GPIO interrupts.
+ *
+ * @author rdroid-27
+ * @date July 2026
  */
 
 #ifndef INC_GPIO_DRIVER_H_
 #define INC_GPIO_DRIVER_H_
 
 #include "stm32f103xx.h"
+#include "gpio.h"
 
 // GPIO Pin Number
 #define GPIO_PIN_0 0

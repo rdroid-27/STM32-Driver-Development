@@ -17,22 +17,22 @@
 #define RESET 0
 
 /*******************************************************************************************
- *                            NVIC Register Macros (Cortex-M4)                             *
+ *                            NVIC Register Macros (Cortex-M3)                             *
  *                                                                                         *
  * These macros define the memory-mapped addresses of NVIC registers used to control       *
  * external interrupts in ARM Cortex-M4 based STM32F4xx devices. Use them to enable,       *
  * disable, or manage IRQs via direct register access.                                     *
  *                                                                                         *
- * ➤ Interrupt Set-Enable Registers (ISERx)                                                 *
- *     Used to enable external interrupts. Writing 1 to a bit enables the corresponding     *
- *     IRQ number. Each register controls 32 IRQs:                                          *
- *       - ISER0: IRQ  0–31                                                                 *
- *       - ISER1: IRQ 32–63                                                                 *
- *       - ISER2: IRQ 64–95                                                                 *
+ * ➤ Interrupt Set-Enable Registers (ISERx)                                               *
+ *     Used to enable external interrupts. Writing 1 to a bit enables the corresponding    *
+ *     IRQ number. Each register controls 32 IRQs:                                         *
+ *       - ISER0: IRQ  0–31                                                                *
+ *       - ISER1: IRQ 32–63                                                                *
+ *       - ISER2: IRQ 64–95                                                                *
  *                                                                                         *
- * ➤ Interrupt Clear-Enable Registers (ICERx)                                               *
- *     Used to disable external interrupts. Writing 1 clears (disables) the corresponding   *
- *     IRQ. Same IRQ ranges as ISERx apply.                                                 *
+ * ➤ Interrupt Clear-Enable Registers (ICERx)                                             *
+ *     Used to disable external interrupts. Writing 1 clears (disables) the corresponding  *
+ *     IRQ. Same IRQ ranges as ISERx apply.                                                *
  *******************************************************************************************/
 
 #define NVIC_ISER0 ((volatile uint32_t *)0xE000E100)
@@ -173,42 +173,9 @@
  *    map of each peripheral. These enable safe and readable register access in code.      *
  *******************************************************************************************/
 
-                    /*<! GPIO Register Structure >*/
-typedef struct
-{
-    volatile uint32_t CRL;  // 0x00: Port configuration register low (pins 0–7)
-    volatile uint32_t CRH;  // 0x04: Port configuration register high (pins 8–15)
-    volatile uint32_t IDR;  // 0x08: Input data register
-    volatile uint32_t ODR;  // 0x0C: Output data register
-    volatile uint32_t BSRR; // 0x10: Bit set/reset register
-    volatile uint32_t BRR;  // 0x14: Bit reset register
-    volatile uint32_t LCKR; // 0x18: Port configuration lock register
-} GPIO_RegDef_t;
-
-// Map GPIOs to GPIO Register Structure
-#define GPIOA ((GPIO_RegDef_t *)GPIOA_BASEADDR)
-#define GPIOB ((GPIO_RegDef_t *)GPIOB_BASEADDR)
-#define GPIOC ((GPIO_RegDef_t *)GPIOC_BASEADDR)
-#define GPIOD ((GPIO_RegDef_t *)GPIOD_BASEADDR)
-#define GPIOE ((GPIO_RegDef_t *)GPIOE_BASEADDR)
-#define GPIOF ((GPIO_RegDef_t *)GPIOF_BASEADDR)
-#define GPIOG ((GPIO_RegDef_t *)GPIOG_BASEADDR)
-
-/*<! AFIO Register Structure >*/
-typedef struct
-{
-    volatile uint32_t EVCR;      // 0x00: Event Control Register
-    volatile uint32_t MAPR;      // 0x04: AF Remap and Debug I/O Configuration Register
-    volatile uint32_t EXTICR[4]; // 0x08–0x14: External Interrupt Configuration Registers(EXTICR1–EXTICR4)
-    volatile uint32_t MAPR2;     // 0x18: AF Remap and Debug I/O Configuration Register 2
-} AFIO_RegDef_t;
-
-// Map AFIO to AFIO Register Structure
-#define AFIO ((AFIO_RegDef_t *)AFIO_BASEADDR)
-
 // ==========================================================================================
 
-                    /*<! RCC Register Structure >*/
+/*<! RCC Register Structure >*/
 typedef struct
 {
     volatile uint32_t CR;       // 0x00: Clock Control Register
@@ -228,29 +195,9 @@ typedef struct
 // Map RCC to RCC Register Structure
 #define RCC ((RCC_RegDef_t *)RCC_BASEADDR)
 
-// Enable Clock for GPIOs
-#define GPIOA_CLK_EN() (RCC->APB2ENR |= (1 << 2))
-#define GPIOB_CLK_EN() (RCC->APB2ENR |= (1 << 3))
-#define GPIOC_CLK_EN() (RCC->APB2ENR |= (1 << 4))
-#define GPIOD_CLK_EN() (RCC->APB2ENR |= (1 << 5))
-#define GPIOE_CLK_EN() (RCC->APB2ENR |= (1 << 6))
-
-// Disable Clock for GPIOs
-#define GPIOA_CLK_DI() (RCC->APB2ENR &= ~(1 << 2))
-#define GPIOB_CLK_DI() (RCC->APB2ENR &= ~(1 << 3))
-#define GPIOC_CLK_DI() (RCC->APB2ENR &= ~(1 << 4))
-#define GPIOD_CLK_DI() (RCC->APB2ENR &= ~(1 << 5))
-#define GPIOE_CLK_DI() (RCC->APB2ENR &= ~(1 << 6))
-
-// Enable Clock for AFIO
-#define AFIO_CLK_EN() (RCC->APB2ENR |= (1 << 0))
-
-// Disable Clock for AFIO
-#define AFIO_CLK_DI() (RCC->APB2ENR &= ~(1 << 0))
-
 // ==========================================================================================
 
-                    /*<! EXTI Register Structure >*/
+/*<! EXTI Register Structure >*/
 typedef struct
 {
     volatile uint32_t IMR;   // 0x00: Interrupt Mask Register
@@ -275,7 +222,7 @@ typedef struct
 
 // ==========================================================================================
 
-                    /*<! SPI Register Structure >*/
+/*<! SPI Register Structure >*/
 typedef struct
 {
     volatile uint32_t CR1;
@@ -311,7 +258,7 @@ typedef struct
 
 // ==========================================================================================
 
-                    /*<! I2C Register Structure >*/
+/*<! I2C Register Structure >*/
 typedef struct
 {
     volatile uint32_t CR1;
@@ -338,7 +285,7 @@ typedef struct
 #define I2C2_CLK_DI() (RCC->APB1ENR &= ~(1 << 22))
 
 // ==========================================================================================
-                    /*<! USART Register Structure >*/
+/*<! USART Register Structure >*/
 typedef struct
 {
     volatile uint32_t SR;
@@ -354,29 +301,29 @@ typedef struct
 #define USART1 ((USART_RegDef_t *)USART1_BASEADDR)
 #define USART2 ((USART_RegDef_t *)USART2_BASEADDR)
 #define USART3 ((USART_RegDef_t *)USART3_BASEADDR)
-#define UART4  ((USART_RegDef_t *)UART4_BASEADDR)
-#define UART5  ((USART_RegDef_t *)UART5_BASEADDR)
-
+#define UART4 ((USART_RegDef_t *)UART4_BASEADDR)
+#define UART5 ((USART_RegDef_t *)UART5_BASEADDR)
 
 // Enable Clock for USARTx
 #define USART1_CLK_EN() (RCC->APB2ENR |= (1 << 14))
 #define USART2_CLK_EN() (RCC->APB1ENR |= (1 << 17))
 #define USART3_CLK_EN() (RCC->APB1ENR |= (1 << 18))
-#define UART4_CLK_EN()  (RCC->APB1ENR |= (1 << 19))
-#define UART5_CLK_EN()  (RCC->APB1ENR |= (1 << 20))
-
+#define UART4_CLK_EN() (RCC->APB1ENR |= (1 << 19))
+#define UART5_CLK_EN() (RCC->APB1ENR |= (1 << 20))
 
 // Disable Clock for USARTx
 #define USART1_CLK_DI() (RCC->APB2ENR &= ~(1 << 14))
 #define USART2_CLK_DI() (RCC->APB1ENR &= ~(1 << 17))
 #define USART3_CLK_DI() (RCC->APB1ENR &= ~(1 << 18))
-#define UART4_CLK_DI()  (RCC->APB1ENR &= ~(1 << 19))
-#define UART5_CLK_DI()  (RCC->APB1ENR &= ~(1 << 20))
-
+#define UART4_CLK_DI() (RCC->APB1ENR &= ~(1 << 19))
+#define UART5_CLK_DI() (RCC->APB1ENR &= ~(1 << 20))
 
 // ==========================================================================================
 
+#include "gpio.h"
 #include "gpio_driver.h"
 #include "spi_driver.h"
 #include "usart_driver.h"
+#include "rcc_driver.h"
+
 #endif /* INC_STM32F103XX_H_ */
