@@ -222,42 +222,6 @@ typedef struct
 
 // ==========================================================================================
 
-/*<! SPI Register Structure >*/
-typedef struct
-{
-    volatile uint32_t CR1;
-    volatile uint32_t CR2;
-    volatile uint32_t SR;
-    volatile uint32_t DR;
-    volatile uint32_t CRCPR;
-    volatile uint32_t RXCRCR;
-    volatile uint32_t TXCRCR;
-    volatile uint32_t I2SCFGR;
-    volatile uint32_t I2SPR;
-} SPI_RegDef_t;
-
-// Map SPIx to SPI Register Structure
-#define SPI1 ((SPI_RegDef_t *)SPI1_BASEADDR)
-#define SPI2 ((SPI_RegDef_t *)SPI2_BASEADDR)
-#define SPI3 ((SPI_RegDef_t *)SPI3_BASEADDR)
-
-// Enable Clock for SPIx
-#define SPI1_CLK_EN() (RCC->APB2ENR |= (1 << 12))
-#define SPI2_CLK_EN() (RCC->APB1ENR |= (1 << 14))
-#define SPI3_CLK_EN() (RCC->APB1ENR |= (1 << 15))
-
-// Disable Clock for SPIx
-#define SPI1_CLK_DI() (RCC->APB2ENR &= ~(1 << 12))
-#define SPI2_CLK_DI() (RCC->APB1ENR &= ~(1 << 14))
-#define SPI3_CLK_DI() (RCC->APB1ENR &= ~(1 << 15))
-
-// SPI interrupts in NVIC
-#define IRQ_NO_SPI1 35
-#define IRQ_NO_SPI2 36
-#define IRQ_NO_SPI3 51
-
-// ==========================================================================================
-
 /*<! I2C Register Structure >*/
 typedef struct
 {
@@ -323,6 +287,7 @@ typedef struct
 #include "gpio.h"
 #include "gpio_driver.h"
 #include "spi_driver.h"
+#include "spi.h"
 #include "usart_driver.h"
 #include "rcc_driver.h"
 
