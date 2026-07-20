@@ -64,28 +64,26 @@ typedef struct
 #define USART_HW_FLOW_CTRL_RTS 2
 #define USART_HW_FLOW_CTRL_CTS_RTS 3
 
-#define USART_SR_RXNE 5
-#define USART_SR_TC 6
-#define USART_SR_TXE 7
+#define RXNE (1 << 5)
+#define TC (1 << 6)
+#define TXE (1 << 7)
 
-#define USART_CR1_RE 2
-#define USART_CR1_TE 3
-#define USART_CR1_RXNEIE 5
-#define USART_CR1_TCIE 6
-#define USART_CR1_TXEIE 7
-#define USART_CR1_PS 9
-#define USART_CR1_PCE 10
-#define USART_CR1_M 12
+#define RE (1 << 2)
+#define TE (1 << 3)
+#define RXNEIE (1 << 5)
+#define TCIE (1 << 6)
+#define TXEIE (1 << 7)
+#define PS (1 << 9)
+#define PCE (1 << 10)
+#define M (1 << 12)
 
-#define USART_CR2_STOP 12
+#define STOP (1 << 12)
 
-#define USART_CR3_RTSE 8
-#define USART_CR3_CTSE 9
+#define RTSE (1 << 8)
+#define CTSE (1 << 9)
 
-// USART flags
-#define USART_FLAG_RXNE (1 << USART_SR_RXNE)
-#define USART_FLAG_TC (1 << USART_SR_TC)
-#define USART_FLAG_TXE (1 << USART_SR_TXE)
+#define DIV_Mantissa(x) (x << 4)
+#define DIV_Fraction(y) (y << 0)
 
 // Application states
 #define USART_BUSY_IN_RX 1
